@@ -1,0 +1,54 @@
+VAGRANTFILE_API_VERSION = "2"
+
+go_path = "/usr/local/go/bin"
+
+$install_build_deps = <<SCRIPT
+export DEBIAN_FRONTEND=noninteractive
+apt-get update -qq
+apt-get install -qq --no-install-recommends \
+  build-essential ethtool iputils-arping libpcap-dev git mercurial bc
+curl -s https://storage.googleapis.com/golang/go1.4.2.linux-amd64.tar.gz \
+  | tar xz -C /usr/local
+chown -R vagrant:vagrant ~vagrant/src
+#{go_path}/go clean -i net
+#{go_path}/go install -tags netgo std
+SCRIPT
+
+$tweak_user_env = <<SCRIPT
+echo 'export GOPATH="${HOME}"' \
+  >> ~vagrant/.profile
+echo 'export PATH="${HOME}/bin:#{go_path}:${PATH}"' \
+  >> ~vagrant/.profile
+SCRIPT
+
+$tweak_docker_daemon = <<SCRIPT
+usermod -a -G docker vagrant
+echo 'DOCKER_OPTS="-H unix:///var/run/docker.sock -H tcp://0.0.0.0:2375"' >> /etc/default/docker
+service docker restart
+SCRIPT
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.box = "ubuntu/ubuntu-14.10-amd64"
+  config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/utopic/current/utopic-server-cloudimg-amd64-vagrant-disk1.box"
+
+  config.vm.network "private_network", type: "dhcp"
+  config.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "off"]
+    vb.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
+  end
+
+  config.vm.synced_folder "./docker", "/home/vagrant/src/github.com/docker/docker"
+  config.vm.synced_folder "./weave", "/home/vagrant/src/github.com/weaveworks/weave"
+
+  config.vm.provision :docker, :images => [ "ubuntu:14.04", "gliderlabs/alpine:latest" ]
+
+  config.vm.provision :shell, :inline => $install_build_deps
+  config.vm.provision :shell, :inline => $tweak_user_env, :privileged => false
+  config.vm.provision :shell, :inline => $tweak_docker_daemon
+end
+
+begin
+  load 'Vagrantfile.local'
+rescue LoadError
+end

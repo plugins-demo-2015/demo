@@ -1,0 +1,5 @@
+build/.vagrant
+build/docker
+build/weave
+.*.sw?
+.DS_Store
