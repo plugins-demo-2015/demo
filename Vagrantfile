@@ -61,14 +61,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         load 'tester_scripts.rb'
         config.vm.provision :shell, :inline => $install_docker
 
-        know_peers = ips.select{|host, addr| addr if host !~ /builder|tester-1/}.values
-
         config.vm.provision :docker do |d|
           ## This image needs to be fetched and built for standard Compose demo
           #d.pull_images "busybox:latest", "redis:latest", "python:2.7"
           #d.build_image "/vagrant/app", args: "-t app_web"
 
           ## This is the Weave plugin boostrap command
+          know_peers = ips.select{|host, addr| addr if host !~ /builder|tester-1/}.values
           d.run "weaveplugin",
             image: "weaveworks/plugin",
             args: %w(
@@ -84,12 +83,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         end
 
         config.vm.provision :shell, :inline => "weave launch-dns 10.23.11.#{10+x}/24"
-
-        ## The plugin is not passing peers just yet...
-        know_peers.each do |peer|
-          config.vm.provision :shell,
-            :inline => "weave connect #{peer}"
-        end
 
       end
       config.vm.provision :shell, :inline => $cleanup
