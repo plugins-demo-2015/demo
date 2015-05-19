@@ -33,6 +33,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         config.vm.provision :shell, :inline => $tweak_docker_daemon
       else
       end
+      ## Who the hell thinks official images has to have both of these?
+      config.vm.provision :shell, :inline => 'apt-get remove puppet chef'
     end
   end
 end
