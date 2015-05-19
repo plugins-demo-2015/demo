@@ -6,8 +6,7 @@ apt-get -qq update
 apt-get -qq install cgroupfs-mount cgroup-lite xz-utils git
 groupadd docker
 usermod -a -G docker vagrant
-cp /vagrant/docker.conf /etc/init/
-#cp /vagrant/{docker,weave-docker-plugin}.conf /etc/init/
+cp /vagrant/{docker,weave-docker-plugin}.conf /etc/init/
 /sbin/start docker
-#/sbin/start weave-docker-plugin
+/sbin/start weave-docker-plugin
 SCRIPT
