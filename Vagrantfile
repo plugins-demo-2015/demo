@@ -1,5 +1,12 @@
 VAGRANTFILE_API_VERSION = "2"
 
+$cleanup = <<SCRIPT
+export DEBIAN_FRONTEND=noninteractive
+## Who the hell thinks official images has to have both of these?
+apt-get -qq remove puppet chef
+apt-get -qq autoremove
+SCRIPT
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box = "ubuntu/ubuntu-14.10-amd64"
@@ -32,9 +39,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         config.vm.provision :shell, :inline => $tweak_user_env, :privileged => false
         config.vm.provision :shell, :inline => $tweak_docker_daemon
       else
+        config.vm.provision :file,
+          :source => '.build/docker/bundles/1.7.0-dev/binary/docker-1.7.0-dev',
+          :destination => '/tmp/docker'
+        config.vm.provision :shell, :inline => 'mv /tmp/docker /usr/bin/'
       end
-      ## Who the hell thinks official images has to have both of these?
-      config.vm.provision :shell, :inline => 'apt-get remove puppet chef'
+      config.vm.provision :shell, :inline => $cleanup
     end
   end
 end
