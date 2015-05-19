@@ -6,6 +6,8 @@ $network = [172, 17, 85]
 $cleanup = <<SCRIPT
 export DEBIAN_FRONTEND=noninteractive
 ## Who the hell thinks official images have to have both of these?
+/etc/init.d/chef-client stop
+/etc/init.d/puppet stop
 apt-get -qq remove puppet chef
 apt-get -qq autoremove
 SCRIPT
