@@ -10,4 +10,5 @@ cp /vagrant/{docker,weave-docker-plugin}.conf /etc/init/
 start docker
 sleep 2
 start weave-docker-plugin
+sleep 5
 SCRIPT

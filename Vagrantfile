@@ -1,5 +1,8 @@
 VAGRANTFILE_API_VERSION = "2"
 
+$tester_vms = 3
+$network = [172, 17, 85]
+
 $cleanup = <<SCRIPT
 export DEBIAN_FRONTEND=noninteractive
 ## Who the hell thinks official images has to have both of these?
@@ -12,16 +15,23 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu/ubuntu-14.10-amd64"
   config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/utopic/current/utopic-server-cloudimg-amd64-vagrant-disk1.box"
 
-  config.vm.network "private_network", type: "dhcp"
 
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "off"]
     vb.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
   end
 
-  %w(builder tester-1 tester-2).each do |i|
+  vms = (1..$tester_vms).map{ |a| "tester-#{a}" } << 'builder'
+
+  ips = {}
+
+  vms.each_with_index{ |i, x| ips[i] = ($network + [x+100]).join('.') }
+
+  vms.each do |i|
     config.vm.define vm_name = i do |config|
       config.vm.hostname = vm_name
+
+      config.vm.network "private_network", ip: ips[vm_name] # type: "dhcp"
 
       case vm_name
       when 'builder'
@@ -41,7 +51,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         config.vm.provision :shell, :inline => $tweak_user_env, :privileged => false
         config.vm.provision :shell, :inline => $tweak_docker_daemon
 
-      when 'tester-1', 'tester-2'
+      when /tester-\d/
 
         config.vm.provider :virtualbox do |vb|
           vb.memory = 2048
@@ -50,6 +60,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
         load 'tester_scripts.rb'
         config.vm.provision :shell, :inline => $install_docker
+
+        ips.each do |host,addr|
+          config.vm.provision :shell,
+            :inline => "weave connect #{addr}" if host !~ /builder|#{vm_name}/
+        end
 
       end
       config.vm.provision :shell, :inline => $cleanup
