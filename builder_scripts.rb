@@ -2,8 +2,8 @@ go_path = "/usr/local/go/bin"
 
 $install_build_deps = <<SCRIPT
 export DEBIAN_FRONTEND=noninteractive
-apt-get update -qq
-apt-get install -qq --no-install-recommends \
+apt-get -qq update
+apt-get -qq install --no-install-recommends \
   build-essential ethtool iputils-arping libpcap-dev git mercurial bc
 curl -s https://storage.googleapis.com/golang/go1.4.2.linux-amd64.tar.gz \
   | tar xz -C /usr/local
