@@ -66,6 +66,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             :inline => "weave connect #{addr}" if host !~ /builder|#{vm_name}/
         end
 
+        config.vm.provision :docker do |d|
+          d.pull_images "busybox:latest", "redis:latest"
+          d.build_image "/vagrant/app", args: "-t app_web"
+        end
+
       end
       config.vm.provision :shell, :inline => $cleanup
     end
