@@ -67,7 +67,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           #d.build_image "/vagrant/app", args: "-t app_web"
 
           ## This is the Weave plugin boostrap command
-          know_peers = ips.select{|host, addr| addr if host !~ /builder|tester-1/}.values
+          know_peers = ips.select{|host, addr| addr if host !~ /builder|#{vm_name}/}.values
           d.run "weaveplugin",
             image: "weaveworks/plugin",
             args: %w(
