@@ -63,8 +63,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
         config.vm.provision :docker do |d|
           ## This image needs to be fetched and built for standard Compose demo
-          #d.pull_images "busybox:latest", "redis:latest", "python:2.7"
-          #d.build_image "/vagrant/app", args: "-t app_web"
+          d.pull_images "busybox:latest", "redis:latest", "python:2.7"
+          d.build_image "/vagrant/app", args: "-t app_web"
 
           ## This is the Weave plugin boostrap command
           know_peers = ips.select{|host, addr| addr if host !~ /builder|#{vm_name}/}.values
