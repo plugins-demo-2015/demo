@@ -14,10 +14,6 @@ SCRIPT
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  config.vm.box = "ubuntu/ubuntu-14.10-amd64"
-  config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/utopic/current/utopic-server-cloudimg-amd64-vagrant-disk1.box"
-
-
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "off"]
     vb.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
@@ -38,6 +34,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       case vm_name
       when 'builder'
 
+        config.vm.box = "ubuntu/ubuntu-14.10-amd64"
+        config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/utopic/current/utopic-server-cloudimg-amd64-vagrant-disk1.box"
+
         config.vm.provider :virtualbox do |vb|
           vb.memory = 4096
           vb.cpus = 2
@@ -54,6 +53,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         config.vm.provision :shell, :inline => $tweak_docker_daemon
 
       when /tester-\d/
+
+        config.vm.box = "lmarsden/flocker-tutorial"
 
         config.vm.provider :virtualbox do |vb|
           vb.memory = 2048
