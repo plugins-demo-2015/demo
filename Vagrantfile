@@ -93,6 +93,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         config.vm.provision :shell,
           :inline => "echo #{ips['tester-1']} > /etc/flocker/master_address"
 
+        config.vm.provision :shell, :inline => $create_flocker_zpool
+
       end
       config.vm.provision :shell, :inline => $cleanup
     end
