@@ -1,3 +1,6 @@
+flocker_zpool_size = '10G'
+flocker_prefix = '/var/opt/flocker'
+
 $install_docker = <<SCRIPT
 cp /vagrant/.build/docker/bundles/1.7.0-dev/binary/docker-1.7.0-dev /usr/bin/docker
 cp /vagrant/.build/weave/weave /usr/bin/
@@ -13,4 +16,10 @@ sleep 2
 for i in /vagrant/.build/weave/*.tar
 do docker load -i $i
 done
+SCRIPT
+
+$create_flocker_zpool = <<SCRIPT
+mkdir -p #{flocker_prefix}
+truncate --size #{flocker_zpool_size} #{flocker_prefix}/pool-vdev
+zpool create flocker #{flocker_prefix}/pool-vdev
 SCRIPT
