@@ -91,7 +91,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         config.vm.provision :shell,
           :inline => "echo #{ips[vm_name]} > /etc/flocker/my_address"
         config.vm.provision :shell,
-          :inline => "echo #{ips['builder-1']} > /etc/flocker/master_address"
+          :inline => "echo #{ips['tester-1']} > /etc/flocker/master_address"
 
       end
       config.vm.provision :shell, :inline => $cleanup
