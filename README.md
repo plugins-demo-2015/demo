@@ -26,4 +26,3 @@ vagrant suspend builder
 cd app
 env DOCKER_HOST=tcp://localhost:2375 docker-compose up -d
 ```
->>>>>>> 614744b00b2ca780293883e1bb3e8f93fe5d7368
