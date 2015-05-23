@@ -2,7 +2,9 @@ flocker_zpool_size = '10G'
 flocker_prefix = '/var/opt/flocker'
 
 $install_docker = <<SCRIPT
-cp /vagrant/.build/docker/bundles/1.7.0-dev/binary/docker-1.7.0-dev /usr/bin/docker
+#cp /vagrant/.build/docker/bundles/1.7.0-dev/binary/docker-1.7.0-dev /usr/bin/docker
+# this is the docker with DOCKER_EXPERIMENTAL=1
+cp /vagrant/.build/docker/bundles/1.7.0-dev-experimental/binary/docker-1.7.0-dev-experimental /usr/bin/docker
 cp /vagrant/.build/weave/weave /usr/bin/
 export DEBIAN_FRONTEND=noninteractive
 add-apt-repository -y ppa:zfs-native/stable
