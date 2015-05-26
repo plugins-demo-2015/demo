@@ -1,0 +1,51 @@
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+ 
+  config.vm.box = "powerstrip-mesosphere-demo-v5"
+  config.vm.box_url = "http://storage.googleapis.com/experiments-clusterhq/orchestration-demos/powerstrip-mesosphere-demo-v5.box"
+  
+
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+  end
+
+  config.vm.define "compile" do |compile|
+    compile.vm.network :private_network, :ip => "172.16.10.50"
+    compile.vm.hostname = "compile"
+    compile.vm.provider "virtualbox" do |v|
+      v.memory = 4096
+      v.cpus = 2
+    end
+    load 'builder_scripts.rb'
+    config.vm.synced_folder "./.build/docker", "/home/vagrant/src/github.com/docker/docker"
+    config.vm.synced_folder "./.build/weave", "/home/vagrant/src/github.com/weaveworks/weave"
+
+    config.vm.provision :docker, :images => [ "ubuntu:14.04", "gliderlabs/alpine:latest" ]
+
+    config.vm.provision :shell, :inline => $install_build_deps
+    config.vm.provision :shell, :inline => $tweak_user_env, :privileged => false
+    config.vm.provision :shell, :inline => $tweak_docker_daemon
+
+    compile.vm.provision "shell", inline: <<SCRIPT
+
+SCRIPT
+  end
+
+  config.vm.define "builder" do |builder|
+    builder.vm.network :private_network, :ip => "172.16.10.51"
+    builder.vm.hostname = "builder"
+    builder.vm.provider "virtualbox" do |v|
+      v.memory = 2048
+      v.cpus = 2
+    end
+    builder.vm.provision "shell", inline: <<SCRIPT
+
+SCRIPT
+  end
+end
+
+begin
+  load 'Vagrantfile.local'
+rescue LoadError
+end
