@@ -38,7 +38,6 @@ service docker.io stop
 cp $COMPILED_FILES/docker /usr/bin/docker
 chmod a+x /usr/bin/docker
 groupadd docker || true
-usermod -a -G docker vagrant
 cp /vagrant/docker.conf /etc/init/
 start docker
 sleep 2
@@ -48,4 +47,7 @@ for i in $COMPILED_FILES/*.tar
 do docker load -i $i
 done
 
-docker pull busybox:latest redis:latest python:2.7 errordeveloper/iojs-minimal-runtime:v1.0.1
+docker pull busybox:latest
+docker pull redis:latest
+docker pull python:2.7
+docker pull errordeveloper/iojs-minimal-runtime:v1.0.1
