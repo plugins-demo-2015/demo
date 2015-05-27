@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# this script will checkout docker and weave
+# it will then merge the latest volume plugin code into the latest network plugin code
+# this leaves us with the latest version of weave and docker in the .build folder
+
 DOCKER_WEAVE_FORK=${DOCKER_WEAVE_FORK:-"https://github.com/squaremo/docker"}
 DOCKER_WEAVE_FORK_BRANCH=${DOCKER_WEAVE_FORK_BRANCH:-"network_extensions"}
 
@@ -22,4 +26,4 @@ git rebase $DOCKER_WEAVE_FORK_BRANCH
 git checkout $DOCKER_WEAVE_FORK_BRANCH
 git merge $DOCKER_FLOCKER_FORK_BRANCH
 cd ../..
-vagrant up builder
+vagrant up compiler
