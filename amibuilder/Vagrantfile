@@ -40,7 +40,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.cpus = 2
     end
     ami.vm.provision "shell", inline: <<SCRIPT
-#bash /vagrant/install.sh
+bash /vagrant/install.sh
 SCRIPT
   end
 end

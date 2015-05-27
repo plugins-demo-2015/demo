@@ -19,11 +19,11 @@ instance_name_prefix: kai
 Once this is setup - do this:
 
 ```
-$ make ami
+$ make build
 ```
 
 which does:
 
 ```
-$ bash ami.sh
+$ bash build.sh
 ```
