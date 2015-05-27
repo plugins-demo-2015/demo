@@ -25,5 +25,3 @@ git checkout $DOCKER_FLOCKER_FORK_BRANCH
 git rebase $DOCKER_WEAVE_FORK_BRANCH
 git checkout $DOCKER_WEAVE_FORK_BRANCH
 git merge $DOCKER_FLOCKER_FORK_BRANCH
-cd ../..
-vagrant up compiler

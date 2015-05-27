@@ -41,11 +41,13 @@ zpool create flocker $FLOCKER_PREFIX/pool-vdev
 apt-get -y --force-yes install clusterhq-flocker-node clusterhq-flocker-cli
 
 # copy weave script
-cp /vagrant/.build/weave/weave /usr/bin/
+cp /vagrant/compiled/files/weave /usr/bin/
+chmod a+x /usr/bin/weave
 
 # setup docker
 service docker.io stop
-cp /vagrant/.build/docker/bundles/$DOCKER_NAME/binary/docker-$DOCKER_NAME /usr/bin/docker
+cp /vagrant/compiled/files/docker /usr/bin/docker
+chmod a+x /usr/bin/docker
 groupadd docker || true
 usermod -a -G docker vagrant
 cp /vagrant/docker.conf /etc/init/
@@ -53,7 +55,7 @@ start docker
 sleep 2
 
 # import docker images (created by the compiler)
-for i in /vagrant/.build/weave/*.tar
+for i in /vagrant/compiled/files/*.tar
 do docker load -i $i
 done
 

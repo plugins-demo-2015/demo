@@ -1,8 +1,8 @@
-.PHONY: compile ami
+.PHONY: compile
 
 compile:
 	bash bootstrap.sh
+	vagrant up compiler
 	bash compile.sh
-	
-ami:
-	bash ami.sh
+	bash copyresults.sh
+	vagrant suspend builder
