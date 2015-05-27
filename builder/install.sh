@@ -56,3 +56,5 @@ sleep 2
 for i in /vagrant/.build/weave/*.tar
 do docker load -i $i
 done
+
+docker pull busybox:latest redis:latest python:2.7 errordeveloper/iojs-minimal-runtime:v1.0.1
