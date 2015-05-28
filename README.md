@@ -10,6 +10,8 @@ $ cd compiler && make compile
 
 This uses vagrant-aws to install dependencies and inject the binaries created by the compiler.  It then creates a new AMI from the instance.
 
+First - [install and configure](amibuilder)
+
 ```
 $ cd amibuilder && make build
 ```
