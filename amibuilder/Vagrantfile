@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-require 'yaml'
+load '../aws_credentials.rb'
 
 VAGRANTFILE_API_VERSION = "2"
 
@@ -12,18 +12,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.provider :aws do |aws, override|
-    load '../aws_credentials.rb'
     inject_aws_credentials(aws, override, "builderami")
+    inject_aws_instance_name(aws, "amibuilder")
   end
 
   config.vm.define "ami" do |ami|
-    ami.vm.box = "ubuntu/trusty64"
-    ami.vm.network :private_network, :ip => "172.16.10.51"
     ami.vm.hostname = "ami"
-    ami.vm.provider "virtualbox" do |v|
-      v.memory = 2048
-      v.cpus = 2
-    end
     ami.vm.provision "shell", inline: <<SCRIPT
 bash /vagrant/install.sh
 SCRIPT

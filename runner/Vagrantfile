@@ -6,10 +6,11 @@ VAGRANTFILE_API_VERSION = "2"
 # there are runner_vms + 1 nodes (because there is also a master)
 $runner_vms = 2
 
+load '../aws_credentials.rb'
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
  
   config.vm.provider :aws do |aws, override|
-    load '../aws_credentials.rb'
     inject_aws_credentials(aws, override, "runnerami")
   end
 
@@ -17,6 +18,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   vms.each_with_index do |i, x|
     config.vm.define vm_name = i do |config|
+      config.vm.provider :aws do |aws, override|
+        inject_aws_instance_name(aws, i)
+      end
+
       config.vm.hostname = vm_name
 
       if vm_name == 'master'
