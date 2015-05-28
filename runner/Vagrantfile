@@ -3,21 +3,33 @@
 
 VAGRANTFILE_API_VERSION = "2"
 
+$runner_vms = 2
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
  
-  if Vagrant.has_plugin?("vagrant-cachier")
-    config.cache.scope = :box
-  end
-
   config.vm.provider :aws do |aws, override|
     load '../aws_credentials.rb'
     inject_aws_credentials(aws, override, "runnerami")
   end
 
-  config.vm.define "testnode" do |testnode|
-    testnode.vm.provision "shell", inline: <<SCRIPT
-echo hello > /tmp/file.txt
+  vms = (1..$runner_vms).map{ |a| "runner-#{a}" } << 'master'
+
+  vms.each_with_index do |i, x|
+    config.vm.define vm_name = i do |config|
+      config.vm.hostname = vm_name
+
+      if vm_name == 'master'
+        config.vm.provision "shell", inline: <<SCRIPT
+echo master > /tmp/file.txt
 SCRIPT
+      end
+
+      config.vm.provision "shell", inline: <<SCRIPT
+# get around why the docker.sock was not working nicely
+service docker restart
+SCRIPT
+
+    end
   end
 end
 
