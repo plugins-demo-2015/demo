@@ -5,4 +5,4 @@ compile:
 	vagrant up compiler
 	bash compile.sh
 	bash copyresults.sh
-	vagrant suspend builder
+	vagrant suspend compiler
