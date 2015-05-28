@@ -20,9 +20,14 @@ secret_access_key: SECRET_KEY_HERE
 keypair_name: kai-demo
 keypair_path: /Users/kai/.ssh/kai-demo.pem
 instance_name_prefix: kai
+builderami: ami-3cf8b154
+runnerami: ami-290fe942
+instance_type: c3.xlarge
 ```
 
 IMPORTANT - you need to create a keypair in the region you intend to run the instances (.e.g US East 1)
+
+Also - the `builderami` field needs to be an Ubuntu 14.04 box that is from the same region as the keypair
 
 This keypair needs downloading and when you edit `.aws_secrets` - set the keypair_name and keypair_path accordingly.  When you run 
 
@@ -44,4 +49,8 @@ $ bash build.sh
 
 This will vagrant up - get the box provisioned and then spit out an AMI from it.
 
-Once the ImageId has been printed - the image will still be pending - use the AWS console to see its current status
+Once the ImageId has been printed - the image will still be pending - use the AWS console to see its current status.
+
+When the AMI has been generated - replace the `runnerami` field in the `.aws_secrets` file to be the generated AMI id.
+
+This means the runner will use the AMI we just built.
