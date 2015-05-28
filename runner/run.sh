@@ -24,7 +24,7 @@ function start-weave-plugin() {
 }
 
 # bring up the cluster
-vagrant up
+vagrant up --parallel
 
 # get the IP addresses of the nodes
 masterip=$(get-node-private-ip master)
@@ -35,3 +35,7 @@ runner2ip=$(get-node-private-ip runner-2)
 start-weave-plugin master $runner1ip $runner2ip
 start-weave-plugin runner-1 $masterip $runner2ip
 start-weave-plugin runner-2 $masterip $runner1ip
+
+# tell head node about the other 2
+## TODO: we can just do this once weaveworks/docker-plugin#8 is fixed
+##vagrant ssh master -c "weave connect $runner1ip $runner2ip"
