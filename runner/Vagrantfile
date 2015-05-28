@@ -9,7 +9,7 @@ $runner_vms = 2
 load '../aws_credentials.rb'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
- 
+
   config.vm.provider :aws do |aws, override|
     inject_aws_credentials(aws, override, "runnerami")
   end
@@ -24,16 +24,31 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       config.vm.hostname = vm_name
 
-      if vm_name == 'master'
-        config.vm.provision "shell", inline: <<SCRIPT
-echo master > /tmp/file.txt
-SCRIPT
-      end
+      config.vm.provision :shell, inline: 'echo master > /tmp/file.txt' if vm_name == 'master'
 
-      config.vm.provision "shell", inline: <<SCRIPT
-# get around why the docker.sock was not working nicely
-service docker restart
-SCRIPT
+      config.vm.provision :docker do |d|
+        ## This image needs to be fetched and built for standard Compose demo
+        ## UNCOMENT THIS LATER, WE NEED THESE FOR THE DEMO PART
+        ## BUT NOW IT SPEEDS-UP PROVISIONING TEST CYCLES
+        d.pull_images 'busybox:latest' #, 'redis:latest', 'python:2.7'
+        #d.build_image "/vagrant/app", args: "-t app_web"
+
+        ## This is the Weave plugin boostrap command
+        ## TODO: use this once weaveworks/docker-plugin#8 is fixed
+        ##d.run "weaveplugin",
+        ##  image: "weaveworks/plugin",
+        ##  args: %w(
+        ##    --privileged
+        ##    --net=host
+        ##    -v /var/run/docker.sock:/var/run/docker.sock
+        ##    -v /usr/share/docker/plugins:/usr/share/docker/plugins
+        ##  ).join(' '),
+        ##  cmd: %w(
+        ##    -debug=true
+        ##    -socket=/usr/share/docker/plugins/weave.sock
+        ##    -initpeercount 3
+        ##  ).join(' ')
+      end
 
     end
   end
