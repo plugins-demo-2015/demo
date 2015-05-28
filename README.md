@@ -1,27 +1,23 @@
-## Setup
+## Compiler
+
+This generates new docker binaries and weave images from the merge of all the latest code:
 
 ```
-./bootstrap.sh
-./build.sh
-vagrant suspend builder
-./setup_test_vms.sh
+$ cd compiler && make compile
 ```
 
-## Rebuild
+## Amibuilder
+
+This uses vagrant-aws to install dependencies and inject the binaries created by the compiler.  It then creates a new AMI from the instance.
 
 ```
-vagrant up builder
-./build.sh
-vagrant suspend builder
+$ cd amibuilder && make build
 ```
 
-## Compose
+## Runner
+
+This uses vagrant-aws to spin up 3 nodes for the actual demo - one of the 3 nodes is designated `master` (i.e. it runs the Flocker control service)
 
 ```
-./local_swarm_manager.sh
-```
-
-```
-cd app
-env DOCKER_HOST=tcp://localhost:2375 docker-compose up -d
+$ cd runner && make run
 ```
