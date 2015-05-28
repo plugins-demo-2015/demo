@@ -32,6 +32,6 @@ runner1ip=$(get-node-private-ip runner-1)
 runner2ip=$(get-node-private-ip runner-2)
 
 # kick off the weave plugin on each node
-start-weave-plugin master
+start-weave-plugin master $runner1ip $runner2ip
 start-weave-plugin runner-1 $masterip $runner2ip
 start-weave-plugin runner-2 $masterip $runner1ip
