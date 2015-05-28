@@ -11,11 +11,8 @@ $ vagrant plugin install vagrant-awsinfo
 
 You also need [jq](http://stedolan.github.io/jq/download/) installed.
 
-Before running the script - you need to create a `.aws_secrets` file that will be used to configure EC2.
-
-You need a keypair in the US East 1 region (N.Virginia) for this to work - login to the AWS console and create a keypair.
-
-Here is an example of the `.aws_secrets` file:
+Before running the script - you need to create a `.aws_secrets` file in the root of this repo that will be used to configure EC2.
+You can base this on the `.aws_secrets.example` file:
 
 ```yaml
 access_key_id: KEY_ID_HERE
@@ -25,9 +22,13 @@ keypair_path: /Users/kai/.ssh/kai-demo.pem
 instance_name_prefix: kai
 ```
 
+IMPORTANT - you need to create a keypair in the region you intend to run the instances (.e.g US East 1)
+
+This keypair needs downloading and when you edit `.aws_secrets` - set the keypair_name and keypair_path accordingly.  When you run 
+
 You also need the [aws cli](http://docs.aws.amazon.com/cli/latest/userguide/installing.html) installed and configured with your access credentials (the same as the ones above) - you can `aws configure` to do this.
 
-IMPORTANT - when you configure aws, you must set the region to the same as the keypair in .aws_secrets
+When you run `aws configure` - ensure that the region is the same as the one in which you created the keypair.
 
 Once this is setup - do this:
 
