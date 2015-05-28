@@ -20,7 +20,7 @@ function start-weave-plugin() {
     -v /usr/share/docker/plugins:/usr/share/docker/plugins \
     weaveworks/plugin \
     -debug=true \
-    -socket=/usr/share/docker/plugins/weave.so $peers"
+    -socket=/usr/share/docker/plugins/weave.sock $peers"
 }
 
 # bring up the cluster
