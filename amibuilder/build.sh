@@ -3,5 +3,6 @@
 vagrant up ami --provider=aws
 instanceid=$(vagrant awsinfo -m ami -p | jq -r '.instance_id')
 amiid=$(aws ec2 create-image --instance-id $instanceid --name docker-plugins-demo | jq -r '.ImageId')
+aws ec2 modify-image-attribute --image-id $amiid --launch-permission "{\"Add\":[{\"Group\":\"all\"}]}"
 echo "AMI image has been created"
 echo $amiid
