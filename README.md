@@ -3,7 +3,7 @@
 This generates new docker binaries and weave images from the merge of all the latest code:
 
 ```
-$ cd compiler && make compile
+$ make -C compiler
 ```
 
 ## Amibuilder
@@ -13,7 +13,7 @@ This uses vagrant-aws to install dependencies and inject the binaries created by
 First - [install and configure](amibuilder)
 
 ```
-$ cd amibuilder && make build
+$ make -C amibuilder
 ```
 
 ## Runner
@@ -21,5 +21,5 @@ $ cd amibuilder && make build
 This uses vagrant-aws to spin up 3 nodes for the actual demo - one of the 3 nodes is designated `master` (i.e. it runs the Flocker control service)
 
 ```
-$ cd runner && make run
+$ make -C runner
 ```
