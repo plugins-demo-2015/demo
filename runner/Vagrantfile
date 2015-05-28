@@ -3,6 +3,7 @@
 
 VAGRANTFILE_API_VERSION = "2"
 
+# there are runner_vms + 1 nodes (because there is also a master)
 $runner_vms = 2
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
