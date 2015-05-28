@@ -18,6 +18,7 @@ add-apt-repository -y "deb $BASE_DEB_FOLDER /"
 apt-get -qq update
 
 apt-get install -y \
+  linux-image-extra-$(uname -r) \
   apt-transport-https \
   software-properties-common \
   cgroup-lite \
