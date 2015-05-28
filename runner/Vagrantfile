@@ -15,7 +15,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "testnode" do |testnode|
-    ami.vm.provision "shell", inline: <<SCRIPT
+    testnode.vm.provision "shell", inline: <<SCRIPT
 echo hello > /tmp/file.txt
 SCRIPT
   end

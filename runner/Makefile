@@ -1,4 +1,4 @@
 .PHONY: run
 
 run:
-	@echo tbc
+	bash run.sh

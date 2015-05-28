@@ -1,6 +1,6 @@
 require 'yaml'
 def get_aws_credentials()
-  return YAML::load_file(File.join(File.dirname(__FILE__), "..", ".aws_secrets"))
+  return YAML::load_file(File.join(File.dirname(__FILE__), ".aws_secrets"))
 end
 
 def inject_aws_credentials(aws, override, amifield)
