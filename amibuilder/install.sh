@@ -12,7 +12,6 @@ CGROUPSFS_BINARY="cgroupfs-mount_1.2_all.deb"
 COMPILED_FILES="/vagrant/compiled/files"
 
 # deps
-add-apt-repository -y ppa:zfs-native/stable
 add-apt-repository -y ppa:james-page/docker
 add-apt-repository -y "deb $BASE_DEB_FOLDER /"
 apt-get -qq update
@@ -36,12 +35,11 @@ chmod a+x /usr/bin/weave
 
 # setup docker
 service docker.io stop
-sudo apt-get remove --yes docker.io
 cp $COMPILED_FILES/docker /usr/bin/docker
 chmod a+x /usr/bin/docker
 groupadd docker || true
-cp /vagrant/docker.conf /etc/init/
-start docker
+cp /vagrant/docker.conf /etc/init/docker.io
+service docker.io start
 sleep 2
 
 # import docker images (created by the compiler)
