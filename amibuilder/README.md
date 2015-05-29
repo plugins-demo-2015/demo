@@ -17,6 +17,8 @@ You can base this on the `.aws_secrets.example` file:
 ```yaml
 access_key_id: KEY_ID_HERE
 secret_access_key: SECRET_KEY_HERE
+region: us-east-1
+zone: us-east-1c
 keypair_name: kai-demo
 keypair_path: /Users/kai/.ssh/kai-demo.pem
 instance_name_prefix: kai
