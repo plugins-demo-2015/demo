@@ -2,10 +2,11 @@
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-# return the private IP of a named node
-function get-node-private-ip() {
+# return the private or public IP of a named node
+function get-node-ip() {
   local node="$1"; shift;
-  vagrant awsinfo -m $node -p | jq -r '.private_ip'
+  local field="$1"; shift;
+  vagrant awsinfo -m $node -p | jq -r ".$field"
 }
 
 function get_aws_value() {
@@ -43,6 +44,8 @@ function configure-flocker() {
   local awsregion=$(get_aws_value region)
   local awszone=$(get_aws_value zone)
 
+  rm -rf $DIR/unofficial-flocker-tools
+
   git clone https://github.com/lukemarsden/unofficial-flocker-tools
 
   cat << EOF > $DIR/unofficial-flocker-tools/cluster.yml
@@ -75,17 +78,20 @@ EOF
 vagrant up --parallel
 
 # get the IP addresses of the nodes
-masterip=$(get-node-private-ip master)
-runner1ip=$(get-node-private-ip runner-1)
-runner2ip=$(get-node-private-ip runner-2)
+masterip_private=$(get-node-ip master private_ip)
+runner1ip_private=$(get-node-ip runner-1 private_ip)
+runner2ip_private=$(get-node-ip runner-2 private_ip)
+masterip_public=$(get-node-ip master public_ip)
+runner1ip_public=$(get-node-ip runner-1 public_ip)
+runner2ip_public=$(get-node-ip runner-2 public_ip)
 
 # kick off the weave plugin on each node
-start-weave-plugin master $runner1ip $runner2ip
-start-weave-plugin runner-1 $masterip $runner2ip
-start-weave-plugin runner-2 $masterip $runner1ip
+start-weave-plugin master $runner1ip_private $runner2ip_private
+start-weave-plugin runner-1 $masterip_private $runner2ip_private
+start-weave-plugin runner-2 $masterip_private $runner1ip_private
 
 # tell head node about the other 2
 ## TODO: we can just do this once weaveworks/docker-plugin#8 is fixed
 ##vagrant ssh master -c "weave connect $runner1ip $runner2ip"
 
-configure-flocker $masterip $runner1ip $runner2ip
+configure-flocker $masterip_public $runner1ip_public $runner2ip_public
