@@ -33,7 +33,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         ## This image needs to be fetched and built for standard Compose demo
         ## UNCOMENT THIS LATER, WE NEED THESE FOR THE DEMO PART
         ## BUT NOW IT SPEEDS-UP PROVISIONING TEST CYCLES
-        d.pull_images 'busybox:latest' #, 'redis:latest', 'python:2.7'
+        # we have pre-pulled these images in the AMI
+        #d.pull_images 'busybox:latest', 'redis:latest', 'python:2.7'
         #d.build_image "/vagrant/app", args: "-t app_web"
 
         ## This is the Weave plugin boostrap command
