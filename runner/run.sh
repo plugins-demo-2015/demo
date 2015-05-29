@@ -51,6 +51,7 @@ function configure-flocker() {
   cat << EOF > $DIR/unofficial-flocker-tools/cluster.yml
 cluster_name: flockerdemo
 agent_nodes:
+ - $master
  - $runner1
  - $runner2
 control_node: $master
@@ -95,3 +96,5 @@ start-weave-plugin runner-2 $masterip_private $runner1ip_private
 ##vagrant ssh master -c "weave connect $runner1ip $runner2ip"
 
 configure-flocker $masterip_public $runner1ip_public $runner2ip_public
+
+# now we need to run the flocker-plugin
