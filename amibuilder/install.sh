@@ -33,13 +33,12 @@ apt-get -y --force-yes install clusterhq-flocker-node clusterhq-flocker-cli
 cp $COMPILED_FILES/weave /usr/bin/
 chmod a+x /usr/bin/weave
 
-# setup docker
-service docker.io stop
+# setup docker - this involves removing the docker.io package installed alongside flocker
+apt-get remove --yes docker.io
 cp $COMPILED_FILES/docker /usr/bin/docker
 chmod a+x /usr/bin/docker
-groupadd docker || true
-cp /vagrant/docker.conf /etc/init/docker.io
-service docker.io start
+cp /vagrant/docker.conf /etc/init/docker.conf
+start docker
 sleep 2
 
 # import docker images (created by the compiler)
