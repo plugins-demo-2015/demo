@@ -53,6 +53,8 @@ This will vagrant up - get the box provisioned and then spit out an AMI from it.
 
 Once the ImageId has been printed - the image will still be pending - use the AWS console to see its current status.
 
+When the Image is ready - edit the permissions to public so anyone can use it.
+
 When the AMI has been generated - replace the `runnerami` field in the `.aws_secrets` file to be the generated AMI id.
 
 This means the runner will use the AMI we just built.
