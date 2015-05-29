@@ -36,6 +36,7 @@ chmod a+x /usr/bin/weave
 
 # setup docker
 service docker.io stop
+sudo apt-get remove --yes docker.io
 cp $COMPILED_FILES/docker /usr/bin/docker
 chmod a+x /usr/bin/docker
 groupadd docker || true
