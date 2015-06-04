@@ -24,8 +24,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       config.vm.hostname = vm_name
 
-      config.vm.provision :shell, inline: 'echo master > /tmp/file.txt' if vm_name == 'master'
-
       # allow root to SSH into the machines the same as ubuntu
       config.vm.provision :shell, inline: 'sudo cp /home/ubuntu/.ssh/authorized_keys /root/.ssh/authorized_keys'
       

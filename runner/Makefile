@@ -1,4 +1,6 @@
 .PHONY: run
 
 run:
-	bash run.sh
+	vagrant up --parallel
+	bash flocker.sh
+	bash weave.sh

@@ -34,11 +34,11 @@ cp $COMPILED_FILES/weave /usr/bin/
 chmod a+x /usr/bin/weave
 
 # setup docker - this involves removing the docker.io package installed alongside flocker
-apt-get remove --yes docker.io
+stop docker.io
 cp $COMPILED_FILES/docker /usr/bin/docker
 chmod a+x /usr/bin/docker
-cp /vagrant/docker.conf /etc/init/docker.conf
-start docker
+cp /vagrant/docker.conf /etc/init/docker.io.conf
+start docker.io
 sleep 2
 
 # import docker images (created by the compiler)

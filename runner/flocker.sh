@@ -5,37 +5,7 @@ export TOOLS_BRANCH=${TOOLS_BRANCH:=install-plugin}
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-# return the private or public IP of a named node
-function get-node-ip() {
-  local node="$1"; shift;
-  local field="$1"; shift;
-  vagrant awsinfo -m $node -p | jq -r ".$field"
-}
-
-function get_aws_value() {
-  local field="$1";
-  cat $DIR/../.aws_secrets | grep $field | awk '{print $2}'
-}
-
-# run the weave plugin on a named node
-# the peer IP addresses are passed as args
-function start-weave-plugin() {
-  local node="$1"; shift;
-  local peers="$@";
-
-  vagrant ssh $node -c "sudo docker run -d \
-    --name=weaveplugin \
-    --privileged \
-    --net=host \
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    -v /usr/share/docker.io/plugins:/usr/share/docker/plugins \
-    weaveworks/plugin \
-    -debug=true \
-    -socket=/usr/share/docker/plugins/weave.sock $peers"
-}
-
-# bring up the cluster
-vagrant up --parallel
+source $DIR/utils.sh
 
 sshkey=$(get_aws_value keypair_path)
 awsid=$(get_aws_value access_key_id)
@@ -91,13 +61,5 @@ cd $DIR/unofficial-flocker-tools && \
 DOCKER_BINARY_URL="http://storage.googleapis.com/experiments-clusterhq/docker-binaries/docker-volumes-network-combo" \
 DOCKER_SERVICE_NAME=docker.io \
 PLUGIN_REPO=https://github.com/clusterhq/flocker-docker-plugin \
-PLUGIN_BRANCH=maximum-size \
+PLUGIN_BRANCH=wait-for-uuid \
 ./plugin.py cluster.yml
-# tell head node about the other 2
-## TODO: we can just do this once weaveworks/docker-plugin#8 is fixed
-##vagrant ssh master -c "weave connect $runner1ip $runner2ip"
-
-# kick off the weave plugin on each node
-start-weave-plugin master $runner1ip_private $runner2ip_private
-start-weave-plugin runner-1 $masterip_private $runner2ip_private
-start-weave-plugin runner-2 $masterip_private $runner1ip_private
