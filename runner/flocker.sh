@@ -21,7 +21,7 @@ masterip_public=$(get-node-ip master public_ip)
 runner1ip_public=$(get-node-ip runner-1 public_ip)
 runner2ip_public=$(get-node-ip runner-2 public_ip)
 
-# clone https://github.com/lukemarsden/unofficial-flocker-tools
+# clone $TOOLS_REPO
 # generate cluster.yml
 # run deploy.py
 rm -rf $DIR/unofficial-flocker-tools
@@ -59,7 +59,6 @@ cd $DIR/unofficial-flocker-tools && ./deploy.py cluster.yml
 # and upload the certs required
 cd $DIR/unofficial-flocker-tools && \
 DOCKER_BINARY_URL="http://storage.googleapis.com/experiments-clusterhq/docker-binaries/docker-volumes-network-combo" \
-DOCKER_SERVICE_NAME=docker.io \
 PLUGIN_REPO=https://github.com/clusterhq/flocker-docker-plugin \
-PLUGIN_BRANCH=wait-for-uuid \
+PLUGIN_BRANCH=maximum-size \
 ./plugin.py cluster.yml
