@@ -10,12 +10,18 @@ function start-weave-plugin() {
   local node="$1"; shift;
   local peers="$@";
 
+  # make sure the plugins folder exists
+  vagrant ssh $node -c "mkdir -p /usr/share/docker/plugins"
+
+  # start the weave plugin mounting the docker.sock
+  # the plugin will start the weave container
+  # we mount the plugins folder
   vagrant ssh $node -c "sudo docker run -d \
     --name=weaveplugin \
     --privileged \
     --net=host \
     -v /var/run/docker.sock:/var/run/docker.sock \
-    -v /usr/share/docker.io/plugins:/usr/share/docker/plugins \
+    -v /usr/share/docker/plugins:/usr/share/docker/plugins \
     weaveworks/plugin \
     -debug=true \
     -socket=/usr/share/docker/plugins/weave.sock $peers"
