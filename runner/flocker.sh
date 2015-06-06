@@ -59,6 +59,7 @@ cd $DIR/unofficial-flocker-tools && ./deploy.py cluster.yml
 # and upload the certs required
 cd $DIR/unofficial-flocker-tools && \
 DOCKER_BINARY_URL="http://storage.googleapis.com/experiments-clusterhq/docker-binaries/docker-volumes-network-combo" \
+DOCKER_SERVICE_NAME=docker.io \
 PLUGIN_REPO=https://github.com/clusterhq/flocker-docker-plugin \
 PLUGIN_BRANCH=maximum-size \
 ./plugin.py cluster.yml
