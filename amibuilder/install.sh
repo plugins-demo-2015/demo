@@ -11,6 +11,8 @@ BASE_DEB_FOLDER="http://build.clusterhq.com/results/omnibus/0.4.1dev3/ubuntu-14.
 CGROUPSFS_FOLDER="http://ftp.uk.debian.org/debian/pool/main/c/cgroupfs-mount"
 CGROUPSFS_BINARY="cgroupfs-mount_1.2_all.deb"
 COMPILED_FILES="/vagrant/compiled/files"
+PLUGIN_REPO="https://github.com/clusterhq/flocker-docker-plugin"
+PLUGIN_BRANCH="maximum-size"
 
 # deps
 add-apt-repository -y ppa:james-page/docker
@@ -22,7 +24,10 @@ apt-get install -y \
   apt-transport-https \
   software-properties-common \
   cgroup-lite \
-  xz-utils
+  xz-utils \
+  python-dev \
+  python-pip \
+  git
 
 # there is no package for cgroupfs-mount on Ubuntu 14.04 so we install manually
 cd ~ && wget $CGROUPSFS_FOLDER/$CGROUPSFS_BINARY && dpkg -i $CGROUPSFS_BINARY
@@ -33,6 +38,10 @@ apt-get -y --force-yes install clusterhq-flocker-node clusterhq-flocker-cli
 # copy weave script
 cp $COMPILED_FILES/weave /usr/bin/
 chmod a+x /usr/bin/weave
+
+# clone and install the flocker-docker-plugin
+git clone -b $PLUGIN_BRANCH $PLUGIN_REPO /root/flocker-docker-plugin
+pip install -r /root/flocker-docker-plugin/requirements.txt
 
 # setup docker - this involves removing the docker.io package installed alongside flocker
 stop docker.io
