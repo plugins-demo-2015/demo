@@ -62,4 +62,6 @@ DOCKER_BINARY_URL="http://storage.googleapis.com/experiments-clusterhq/docker-bi
 DOCKER_SERVICE_NAME=docker.io \
 PLUGIN_REPO=https://github.com/clusterhq/flocker-docker-plugin \
 PLUGIN_BRANCH=maximum-size \
+SKIP_DOCKER_BINARY=yes \
+SKIP_INSTALL_PLUGIN=yes \
 ./plugin.py cluster.yml
