@@ -22,5 +22,7 @@ $ make run
 which does:
 
 ```
-$ bash run.sh
+$ vagrant up --parallel
+$ bash flocker.sh
+$ bash weave.sh
 ```
