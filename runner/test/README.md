@@ -1,4 +1,4 @@
-# manual AWS testing
+# manual AWS testing - RUN # 1
 
 Here are the steps I did on the current AWS cluster to test an EBS migration.
 
@@ -20,7 +20,7 @@ First ssh to runner-1:
 $ ssh ubuntu@54.163.111.97
 ```
 
-There is a script to create and move a volume using the HTTP API `/root/api.sh`
+There is a script on runner-1 to create and move a volume using the HTTP API `/root/api.sh`
 
 This is what I did:
 
