@@ -8,7 +8,8 @@ set -e
 # vars
 #BASE_DEB_FOLDER="http://build.clusterhq.com/results/omnibus/storage-driver-configuration-FLOC-1925/ubuntu-14.04"
 #BASE_DEB_FOLDER="http://build.clusterhq.com/results/omnibus/0.4.1dev3/ubuntu-14.04"
-BASE_DEB_FOLDER="http://build.clusterhq.com/results/omnibus/missing-size-default-FLOC-2084/ubuntu-14.04"
+#BASE_DEB_FOLDER="http://build.clusterhq.com/results/omnibus/missing-size-default-FLOC-2084/ubuntu-14.04"
+BASE_DEB_FOLDER="http://build.clusterhq.com/results/omnibus/master/ubuntu-14.04"
 CGROUPSFS_FOLDER="http://ftp.uk.debian.org/debian/pool/main/c/cgroupfs-mount"
 CGROUPSFS_BINARY="cgroupfs-mount_1.2_all.deb"
 COMPILED_FILES="/vagrant/compiled/files"
