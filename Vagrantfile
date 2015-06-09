@@ -1,5 +1,7 @@
 VAGRANTFILE_API_VERSION = "2"
 
+$weave_release = '0.11.2'
+
 $tester_vms = 3
 $network = [172, 17, 85]
 
@@ -62,16 +64,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         load 'tester_scripts.rb'
         config.vm.provision :shell, :inline => $install_docker
 
-        ## This is the Weave plugin boostrap command
-        know_peers = ips.select{|host, addr| addr if host !~ /builder|#{vm_name}/}.values
-        config.vm.provision :shell, :inline => %w(weave launch -iprange 10.20.0.0/16).concat(know_peers).join(' ')
-        config.vm.provision :shell, :inline => "weave launch-dns 10.23.11.#{10+x}/24"
-
         config.vm.provision :docker do |d|
           ## This image needs to be fetched and built for standard Compose demo
           ## UNCOMENT THIS LATER, WE NEED THESE FOR THE DEMO PART
           ## BUT NOW IT SPEEDS-UP PROVISIONING TEST CYCLES
-          #d.pull_images "busybox:latest", "redis:latest", "python:2.7"
+          d.pull_images(
+            "weaveworks/weave:#$weave_release",
+            "weaveworks/weavedns:#$weave_release",
+            "weaveworks/weaveexec:#$weave_release",
+            # "busybox:latest", "redis:latest", "python:2.7"
+          )
           #d.build_image "/vagrant/app", args: "-t app_web"
 
           d.run "weaveplugin",
@@ -90,6 +92,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
               -socket=/usr/share/docker/plugins/weave.sock
             ).join(' ')
         end
+
+        ## This is the Weave plugin boostrap command
+        know_peers = ips.select{|host, addr| addr if host !~ /builder|#{vm_name}/}.values
+
+        config.vm.provision :shell, :inline => %w(weave launch -iprange 10.20.0.0/16).concat(know_peers).join(' ')
+        config.vm.provision :shell, :inline => "weave launch-dns 10.23.11.#{10+x}/24"
 
         config.vm.provision :shell, :inline => "mkdir -p /etc/flocker"
         config.vm.provision :shell,

@@ -5,7 +5,7 @@ $install_docker = <<SCRIPT
 cp /vagrant/.build/docker/bundles/1.7.0-dev-experimental/binary/docker-1.7.0-dev-experimental /usr/bin/docker
 sudo curl --silent --location \
   --output /usr/bin/weave \
-  https://github.com/weaveworks/weave/releases/download/latest_release/weave
+  https://github.com/weaveworks/weave/releases/download/v#$weave_release/weave
 sudo chmod a+x /usr/bin/weave
 export DEBIAN_FRONTEND=noninteractive
 apt-get -qq update
