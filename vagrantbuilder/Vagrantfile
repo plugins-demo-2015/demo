@@ -6,10 +6,8 @@ PROJECTS_HOME = ENV['PROJECTS_HOME'] || "../"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu/trusty64"
-  #config.vm.box = "k8s-test-v1"
-  #config.vm.box_url = "file:///Users/kai/projects/powerstrip-k8s-demo/box/package.box"
-  config.vm.network :private_network, :ip => "172.16.255.250"
-  config.vm.hostname = "node1"
+  config.vm.network :private_network, :ip => "172.16.20.250"
+  config.vm.hostname = "vagrantbuilder1"
   config.vm.provider "virtualbox" do |v|
     v.memory = 2048
   end
