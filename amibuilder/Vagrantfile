@@ -18,8 +18,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "ami" do |ami|
     ami.vm.hostname = "ami"
-    ami.vm.provision "file", source: "../install.sh", destination: "/install.sh"
-    ami.vm.provision "file", source: "../docker.conf", destination: "/docker.conf"
+    ami.vm.provision "file", source: "../install.sh", destination: "/vagrant/install.sh"
+    ami.vm.provision "file", source: "../docker.conf", destination: "/vagrant/docker.conf"
     ami.vm.provision "shell", inline: <<SCRIPT
 bash /install.sh
 SCRIPT

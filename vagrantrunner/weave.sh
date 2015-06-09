@@ -1,8 +1,8 @@
 #!/bin/sh
 
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+set -e
 
-source $DIR/utils.sh
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 # run the weave plugin on a named node
 # the peer IP addresses are passed as args
@@ -36,16 +36,11 @@ function start-weave() {
     -socket=/usr/share/docker/plugins/weave.sock"
 }
 
-# get the IP addresses of the nodes
-masterip_private=$(get-node-ip master private_ip)
-runner1ip_private=$(get-node-ip runner-1 private_ip)
-runner2ip_private=$(get-node-ip runner-2 private_ip)
-
-# tell head node about the other 2
-## TODO: we can just do this once weaveworks/docker-plugin#8 is fixed
-##vagrant ssh master -c "weave connect $runner1ip $runner2ip"
+master="172.16.70.250"
+runner1="172.16.70.251"
+runner2="172.16.70.252"
 
 # kick off the weave plugin on each node
-start-weave master 10 $runner1ip_private $runner2ip_private
-start-weave runner-1 11 $masterip_private $runner2ip_private
-start-weave runner-2 12 $masterip_private $runner1ip_private
+start-weave master 10 $runner1 $runner1
+start-weave runner-1 11 $runner2 $master
+start-weave runner-2 12 $runner1 $master

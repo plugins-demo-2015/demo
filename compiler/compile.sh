@@ -5,4 +5,4 @@
 vagrant ssh compiler -c 'export DOCKER_EXPERIMENTAL=1 && make -C src/github.com/docker/docker'
 # build the latest weave binary - it will create .tar files for the docker images
 # in .build/weave/{weave,weavedns,weaveexec,plugin}.tar
-vagrant ssh compiler -c 'make -C src/github.com/weaveworks/weave'
+vagrant ssh compiler -c 'make -C src/github.com/weaveworks/docker-plugin'

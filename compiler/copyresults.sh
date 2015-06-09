@@ -12,10 +12,8 @@ copy-files() {
     mkdir -p $TARGET_DIR
     echo "Copying docker"
     cp $DIR/.build/docker/bundles/$DOCKER_NAME/binary/docker-$DOCKER_NAME $TARGET_DIR/docker
-    echo "Copying weave"
-    cp $DIR/.build/weave/weave $TARGET_DIR/weave
-    echo "Copying docker images"
-    cp $DIR/.build/weave/*.tar $TARGET_DIR
+    echo "Copying images"
+    cp $DIR/.build/docker-plugin/*.tar $TARGET_DIR
 }
 
 copy-files $AMI_TARGET_DIR

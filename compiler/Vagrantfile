@@ -20,7 +20,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
     load 'builder_scripts.rb'
     config.vm.synced_folder "./.build/docker", "/home/vagrant/src/github.com/docker/docker"
-    config.vm.synced_folder "./.build/weave", "/home/vagrant/src/github.com/weaveworks/weave"
+    config.vm.synced_folder "./.build/docker-plugin", "/home/vagrant/src/github.com/weaveworks/docker-plugin"
 
     config.vm.provision :docker, :images => [ "ubuntu:14.04", "gliderlabs/alpine:latest" ]
 
