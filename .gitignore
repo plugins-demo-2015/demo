@@ -11,3 +11,6 @@ Icon?
 Thumbs.db
 ehthumbs.db
 .aws_secrets
+*.box
+.build
+runner/test/docker*
