@@ -1,0 +1,50 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+  end
+
+  config.vm.box = "docker-plugins-demo-vagrant-v1"
+  config.vm.box_url = "http://storage.googleapis.com/experiments-clusterhq/vagrant-boxes/flocker-ubuntu14.04-zfs.box"
+
+  config.vm.define "master" do |master|
+    master.vm.network :private_network, :ip => "172.16.70.250"
+    master.vm.hostname = "master"
+    master.vm.provider "virtualbox" do |v|
+      v.memory = 1536
+    end
+    master.vm.provision :shell, inline: 'sudo cp /home/ubuntu/.ssh/authorized_keys /root/.ssh/authorized_keys'
+    master.vm.provision "shell", inline: <<SCRIPT
+# echo installing master
+SCRIPT
+  end
+
+  config.vm.define "runner-1" do |runner1|
+    runner1.vm.network :private_network, :ip => "172.16.70.251"
+    runner1.vm.hostname = "runner-1"
+    runner1.vm.provider "virtualbox" do |v|
+      v.memory = 1536
+    end
+    master.vm.provision :shell, inline: 'sudo cp /home/ubuntu/.ssh/authorized_keys /root/.ssh/authorized_keys'
+    runner1.vm.provision "shell", inline: <<SCRIPT
+# echo installing runner-1
+SCRIPT
+  end
+
+  config.vm.define "runner-2" do |runner2|
+    runner2.vm.network :private_network, :ip => "172.16.70.252"
+    runner2.vm.hostname = "runner-2"
+    runner2.vm.provider "virtualbox" do |v|
+      v.memory = 1536
+    end
+    master.vm.provision :shell, inline: 'sudo cp /home/ubuntu/.ssh/authorized_keys /root/.ssh/authorized_keys'
+    runner2.vm.provision "shell", inline: <<SCRIPT
+# echo installing runner-2
+SCRIPT
+  end
+end
