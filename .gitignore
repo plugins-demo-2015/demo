@@ -11,3 +11,4 @@ Icon?
 Thumbs.db
 ehthumbs.db
 .build
+.aws_secrets
