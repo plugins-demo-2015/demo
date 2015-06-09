@@ -1,11 +1,11 @@
 #!/bin/sh
 
+set -e
+
 export TOOLS_REPO=${TOOLS_REPO:=https://github.com/binocarlos/unofficial-flocker-tools}
 export TOOLS_BRANCH=${TOOLS_BRANCH:=install-plugin}
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-
-sshkey=$(get_aws_value keypair_path)
 
 master="172.16.70.250"
 runner1="172.16.70.251"
@@ -28,7 +28,7 @@ control_node: $master
 users:
  - flockerdemo
 os: ubuntu
-private_key_path: $sshkey
+private_key_path: $DIR/insecure_private_key
 agent_config:
   version: 1
   control-service:
