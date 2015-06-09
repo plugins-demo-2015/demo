@@ -11,4 +11,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider "virtualbox" do |v|
     v.memory = 2048
   end
+  config.vm.provision "file", source: "../install.sh", destination: "/vagrant/install.sh"
+    config.vm.provision "file", source: "../docker.conf", destination: "/vagrant/docker.conf"
+    config.vm.provision "shell", inline: <<SCRIPT
+bash /vagrant/install.sh
+bash /vagrant/installzfs.sh
+SCRIPT
 end

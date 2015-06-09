@@ -8,8 +8,10 @@ runner1="23.22.54.22"
 runner2="54.159.161.241"
 master="54.158.86.20"
 key="/Users/kai/.ssh/kai-demo.pem"
-binaryfolder="/Users/kai/projects/docker-plugins-demo/compiler/.build/docker/bundles/1.7.0-dev/binary"
-binaryname="docker-1.7.0-dev"
+#binaryfolder="/Users/kai/projects/docker-plugins-demo/compiler/.build/docker/bundles/1.7.0-dev/binary"
+#binaryname="docker-1.7.0-dev"
+binaryfolder="/Users/kai/projects/docker-plugins-demo/runner/test"
+binaryname="docker-1.7.0-dev-experimental"
 flockerrepo="https://github.com/clusterhq/flocker"
 flockerbranch="disconnnect-datasets-from-containers-FLOC-2163"
 filechanged="node/agents/blockdevice.py"
@@ -38,6 +40,6 @@ patch-flocker() {
     do-ssh $1 "sudo start flocker-dataset-agent"
 }
 for X in $master $runner1 $runner2; do
-    patch-flocker $X
+    #patch-flocker $X
     patch-docker $X
 done
