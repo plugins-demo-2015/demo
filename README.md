@@ -18,6 +18,7 @@ vagrant suspend builder
 ## Compose
 
 ```
+vagrant up tester-1 tester-2 tester-3
 ./local_swarm_manager.sh
 ```
 

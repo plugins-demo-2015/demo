@@ -44,7 +44,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
         load 'builder_scripts.rb'
         config.vm.synced_folder "./.build/docker", "/home/vagrant/src/github.com/docker/docker"
-        config.vm.synced_folder "./.build/weave", "/home/vagrant/src/github.com/weaveworks/weave"
+        config.vm.synced_folder "./.build/docker-plugin", "/home/vagrant/src/github.com/weaveworks/docker-plugin"
 
         config.vm.provision :docker, :images => [ "ubuntu:14.04", "gliderlabs/alpine:latest" ]
 
@@ -62,6 +62,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         load 'tester_scripts.rb'
         config.vm.provision :shell, :inline => $install_docker
 
+        ## This is the Weave plugin boostrap command
+        know_peers = ips.select{|host, addr| addr if host !~ /builder|#{vm_name}/}.values
+        config.vm.provision :shell, :inline => %w(weave launch -iprange 10.20.0.0/16).concat(know_peers).join(' ')
+        config.vm.provision :shell, :inline => "weave launch-dns 10.23.11.#{10+x}/24"
+
         config.vm.provision :docker do |d|
           ## This image needs to be fetched and built for standard Compose demo
           ## UNCOMENT THIS LATER, WE NEED THESE FOR THE DEMO PART
@@ -69,25 +74,24 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           #d.pull_images "busybox:latest", "redis:latest", "python:2.7"
           #d.build_image "/vagrant/app", args: "-t app_web"
 
-          ## This is the Weave plugin boostrap command
-          know_peers = ips.select{|host, addr| addr if host !~ /builder|#{vm_name}/}.values
           d.run "weaveplugin",
             image: "weaveworks/plugin",
             args: %w(
+              -d
               --privileged
               --net=host
               -v /var/run/docker.sock:/var/run/docker.sock
               -v /usr/share/docker/plugins:/usr/share/docker/plugins
+              -v /proc:/hostproc
             ).join(' '),
-            cmd: %w(
+            cmd: %W(
+              -nameserver=10.23.11.#{10+x}
               -debug=true
               -socket=/usr/share/docker/plugins/weave.sock
-            ).concat(know_peers).join(' ')
+            ).join(' ')
         end
 
-        config.vm.provision :shell, :inline => "weave launch-dns 10.23.11.#{10+x}/24"
-
-        config.vm.provision :shell, :inline => "mkdir /etc/flocker"
+        config.vm.provision :shell, :inline => "mkdir -p /etc/flocker"
         config.vm.provision :shell,
           :inline => "echo #{ips[vm_name]} > /etc/flocker/my_address"
         config.vm.provision :shell,
