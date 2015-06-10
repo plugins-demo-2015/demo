@@ -1,8 +1,11 @@
 flocker_zpool_size = '10G'
 flocker_prefix = '/var/opt/flocker'
 
+docker_bin = '/vagrant/.build/docker/bundles/1.7.0-dev/binary/docker'
+# /vagrant/.build/docker/bundles/1.7.0-dev-experimental/binary/docker-1.7.0-dev-experimental
+
 $install_docker = <<SCRIPT
-cp /vagrant/.build/docker/bundles/1.7.0-dev-experimental/binary/docker-1.7.0-dev-experimental /usr/bin/docker
+cp #{docker_bin} /usr/bin/docker
 sudo curl --silent --location \
   --output /usr/bin/weave \
   https://github.com/weaveworks/weave/releases/download/v#$weave_release/weave
