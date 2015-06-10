@@ -2,6 +2,8 @@
 
 set -e
 
+weave_release='0.11.2'
+
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 # run the weave plugin on a named node
@@ -14,11 +16,13 @@ function start-weave() {
   # make sure the plugins folder exists
   vagrant ssh $node -c "mkdir -p /usr/share/docker/plugins"
 
+  #vagrant ssh $node -c "sudo docker pull weaveworks/weave:$weave_release"
+
   # run the weave router
-  vagrant ssh $node -c "weave launch -iprange 10.20.0.0/16 $peers"
+  vagrant ssh $node -c "sudo weave launch -iprange 10.20.0.0/16 $peers"
 
   # run the weave DNS
-  vagrant ssh $node -c "weave launch-dns 10.23.11.${index}/24"
+  vagrant ssh $node -c "sudo weave launch-dns 10.23.11.${index}/24"
 
   # start the weave plugin mounting the docker.sock
   # the plugin will start the weave container
