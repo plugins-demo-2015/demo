@@ -41,7 +41,7 @@ cd ~ && wget $CGROUPSFS_FOLDER/$CGROUPSFS_BINARY && dpkg -i $CGROUPSFS_BINARY
 apt-get -y --force-yes install clusterhq-flocker-node clusterhq-flocker-cli
 
 # copy weave script
-curl -L -o /usr/bin/weave https://github.com/weaveworks/weave/releases/download/$weave_release/weave
+curl -L -o /usr/bin/weave https://github.com/weaveworks/weave/releases/download/v$weave_release/weave
 chmod a+x /usr/bin/weave
 
 # clone and install the flocker-docker-plugin
@@ -52,7 +52,7 @@ pip install -r /root/flocker-docker-plugin/requirements.txt
 stop docker.io
 cp $COMPILED_FILES/docker /usr/bin/docker
 chmod a+x /usr/bin/docker
-cp /vagrant/docker.conf /etc/init/docker.io.conf
+cp /tmp/docker.conf /etc/init/docker.io.conf
 start docker.io
 sleep 5
 
