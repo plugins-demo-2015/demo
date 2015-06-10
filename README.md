@@ -25,3 +25,11 @@ This uses vagrant-aws to spin up 3 nodes for the actual demo - one of the 3 node
 ```
 $ make -C runner
 ```
+
+## Vagrant runner
+
+Set up a local testing environment with ZFS on Vagrant.
+
+```
+$ make -C vagrantrunner
+```
