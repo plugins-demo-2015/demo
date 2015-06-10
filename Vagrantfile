@@ -64,6 +64,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         load 'tester_scripts.rb'
         config.vm.provision :shell, :inline => $install_docker
 
+        config.vm.provision :shell, :inline => "docker rm -f weaveplugin || true"
+
         config.vm.provision :docker do |d|
           ## This image needs to be fetched and built for standard Compose demo
           ## UNCOMENT THIS LATER, WE NEED THESE FOR THE DEMO PART
@@ -75,6 +77,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             # "busybox:latest", "redis:latest", "python:2.7"
           )
           #d.build_image "/vagrant/app", args: "-t app_web"
+
+          know_peers = ips.select{|host, addr| addr if host !~ /builder|#{vm_name}/}.values
+
+          config.vm.provision :shell, :inline => "weave reset"
+          config.vm.provision :shell, :inline => "weave launch -iprange 10.20.0.0/16 #{know_peers.join(' ')} || true"
+          config.vm.provision :shell, :inline => "weave launch-dns 10.23.11.#{10+x}/24"
+
+          config.vm.provision :shell, :inline => "mkdir -p /etc/flocker"
+          config.vm.provision :shell,
+          :inline => "echo #{ips[vm_name]} > /etc/flocker/my_address"
+          config.vm.provision :shell,
+          :inline => "echo #{ips['tester-1']} > /etc/flocker/master_address"
 
           d.run "weaveplugin",
             image: "weaveworks/plugin",
@@ -92,18 +106,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
               -socket=/usr/share/docker/plugins/weave.sock
             ).join(' ')
         end
-
-        ## This is the Weave plugin boostrap command
-        know_peers = ips.select{|host, addr| addr if host !~ /builder|#{vm_name}/}.values
-
-        config.vm.provision :shell, :inline => %w(weave launch -iprange 10.20.0.0/16).concat(know_peers).join(' ')
-        config.vm.provision :shell, :inline => "weave launch-dns 10.23.11.#{10+x}/24"
-
-        config.vm.provision :shell, :inline => "mkdir -p /etc/flocker"
-        config.vm.provision :shell,
-          :inline => "echo #{ips[vm_name]} > /etc/flocker/my_address"
-        config.vm.provision :shell,
-          :inline => "echo #{ips['tester-1']} > /etc/flocker/master_address"
 
         #config.vm.provision :shell, :inline => $create_flocker_zpool
 

@@ -5,6 +5,7 @@ docker_bin = '/vagrant/.build/docker/bundles/1.7.0-dev/binary/docker'
 # /vagrant/.build/docker/bundles/1.7.0-dev-experimental/binary/docker-1.7.0-dev-experimental
 
 $install_docker = <<SCRIPT
+stop docker
 cp #{docker_bin} /usr/bin/docker
 sudo curl --silent --location \
   --output /usr/bin/weave \
