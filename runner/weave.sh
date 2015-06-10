@@ -12,13 +12,13 @@ function start-weave() {
   local peers="$@";
 
   # make sure the plugins folder exists
-  vagrant ssh $node -c "mkdir -p /usr/share/docker/plugins"
+  vagrant ssh $node -c "sudo mkdir -p /usr/share/docker/plugins"
 
   # run the weave router
-  vagrant ssh $node -c "weave launch -iprange 10.20.0.0/16 $peers"
+  vagrant ssh $node -c "sudo weave launch -iprange 10.20.0.0/16 $peers"
 
   # run the weave DNS
-  vagrant ssh $node -c "weave launch-dns 10.23.11.${index}/24"
+  vagrant ssh $node -c "sudo weave launch-dns 10.23.11.${index}/24"
 
   # start the weave plugin mounting the docker.sock
   # the plugin will start the weave container
