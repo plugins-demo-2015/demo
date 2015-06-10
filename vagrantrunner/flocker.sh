@@ -2,8 +2,8 @@
 
 set -e
 
-export TOOLS_REPO=${TOOLS_REPO:=https://github.com/binocarlos/unofficial-flocker-tools}
-export TOOLS_BRANCH=${TOOLS_BRANCH:=install-plugin}
+export TOOLS_REPO=${TOOLS_REPO:=https://github.com/clusterhq/unofficial-flocker-tools}
+export TOOLS_BRANCH=${TOOLS_BRANCH:=prototype-volumes-cli}
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
