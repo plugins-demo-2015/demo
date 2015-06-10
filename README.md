@@ -26,6 +26,14 @@ This uses vagrant-aws to spin up 3 nodes for the actual demo - one of the 3 node
 $ make -C runner
 ```
 
+## Vagrant builder
+
+Create a Vagrant.box file ready for the Vagrant runner - it will spit out a `vagrantbuilder/vagrantXXX.box` file:
+
+```
+$ make -C vagrantbuilder
+```
+
 ## Vagrant runner
 
 Set up a local testing environment with ZFS on Vagrant.
