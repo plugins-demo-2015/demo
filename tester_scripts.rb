@@ -24,6 +24,14 @@ do docker load -i $i
 done
 SCRIPT
 
+$weavedns_route = <<SCRIPT
+WEAVEDNS_PID=$(docker inspect --format='{{ .State.Pid }}' weavedns)
+[ ! -d /var/run/netns ] && sudo mkdir -p /var/run/netns
+sudo ln -s /proc/$WEAVEDNS_PID/ns/net /var/run/netns/$WEAVEDNS_PID
+sudo ip netns exec $WEAVEDNS_PID sudo ip route add 10.20.0.0/16 dev ethwe
+sudo rm -f /var/run/netns/$WEAVEDNS_PID
+SCRIPT
+
 $create_flocker_zpool = <<SCRIPT
 mkdir -p #{flocker_prefix}
 truncate --size #{flocker_zpool_size} #{flocker_prefix}/pool-vdev
