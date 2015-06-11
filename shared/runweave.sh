@@ -1,7 +1,9 @@
 #!/bin/bash
 
-local index="$1"; shift;
-local peers="$@";
+set -xe
+
+index="$1"; shift;
+peers="$@";
 
 sudo mkdir -p /usr/share/docker/plugins
 sudo docker rm -f weaveplugin || true
