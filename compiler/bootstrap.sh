@@ -2,7 +2,7 @@
 
 # clone docker and weave ready for the compiler
 DOCKER_WEAVE_FORK=${DOCKER_WEAVE_FORK:-"https://github.com/squaremo/docker"}
-DOCKER_WEAVE_FORK_BRANCH=${DOCKER_WEAVE_FORK_BRANCH:-"network_extensions"}
+DOCKER_WEAVE_FORK_BRANCH=${DOCKER_WEAVE_FORK_BRANCH:-"plugins_demo"}
 WEAVE_PLUGIN_FORK=${WEAVE_PLUGIN_FORK:-"https://github.com/weaveworks/docker-plugin"}
 WEAVE_PLUGIN_FORK_BRANCH=${WEAVE_PLUGIN_FORK_BRANCH:-"master"}
 
