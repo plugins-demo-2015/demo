@@ -33,6 +33,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.memory = 1024
     end
     master.vm.provision :shell, inline: $install_keys + $make_zpool
+    config.vm.provision "file", source: "../shared/runweave.sh", destination: "/tmp/runweave.sh"
   end
 
   config.vm.define "runner-1" do |runner1|
@@ -42,6 +43,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.memory = 1024
     end
     runner1.vm.provision :shell, inline: $install_keys + $make_zpool
+    config.vm.provision "file", source: "../shared/runweave.sh", destination: "/tmp/runweave.sh"
   end
 
   config.vm.define "runner-2" do |runner2|
@@ -51,5 +53,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       v.memory = 1024
     end
     runner2.vm.provision :shell, inline: $install_keys + $make_zpool
+    config.vm.provision "file", source: "../shared/runweave.sh", destination: "/tmp/runweave.sh"
   end
 end

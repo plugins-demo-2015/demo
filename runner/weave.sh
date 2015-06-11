@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -xe
+
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 source $DIR/utils.sh
@@ -12,39 +14,7 @@ function start-weave() {
   local peers="$@";
 
   # make sure the plugins folder exists
-  vagrant ssh $node -c "sudo mkdir -p /usr/share/docker/plugins"
-
-  # remove the weaveplugin
-  vagrant ssh $node -c "sudo docker rm -f weaveplugin || true"
-  vagrant ssh $node -c "sudo weave reset"
-
-  # run the weave router
-  vagrant ssh $node -c "sudo weave launch -iprange 10.20.0.0/16 $peers"
-
-  # run the weave DNS
-  vagrant ssh $node -c "sudo weave launch-dns 10.23.11.${index}/24"
-
-  # setup the route for weave DNS
-  WEAVEDNS_PID=$(vagrant ssh $node -c "sudo docker inspect --format='{{ .State.Pid }}' weavedns")
-  vagrant ssh $node -c "[ ! -d /var/run/netns ] && sudo mkdir -p /var/run/netns"
-  vagrant ssh $node -c "sudo ln -s /proc/$WEAVEDNS_PID/ns/net /var/run/netns/$WEAVEDNS_PID"
-  vagrant ssh $node -c "sudo ip netns exec $WEAVEDNS_PID sudo ip route add 10.20.0.0/16 dev ethwe"
-  vagrant ssh $node -c "sudo rm -f /var/run/netns/$WEAVEDNS_PID"
-
-  # start the weave plugin mounting the docker.sock
-  # the plugin will start the weave container
-  # we mount the plugins folder
-  vagrant ssh $node -c "sudo docker run \
-    -d \
-    --privileged \
-    --net=host \
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    -v /usr/share/docker/plugins:/usr/share/docker/plugins \
-    -v /proc:/hostproc \
-    weaveworks/plugin \
-    -nameserver=10.23.11.${index} \
-    -debug=true \
-    -socket=/usr/share/docker/plugins/weave.sock"
+  vagrant ssh $node -c "sudo bash /tmp/runweave.sh $index $peers"
 }
 
 # get the IP addresses of the nodes
