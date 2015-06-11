@@ -80,7 +80,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
           know_peers = ips.select{|host, addr| addr if host !~ /builder|#{vm_name}/}.values
 
-          config.vm.provision :shell, :inline => "weave reset"
+          config.vm.provision :shell, :inline => "weave stop"
+          config.vm.provision :shell, :inline => "weave stop-dns"
           config.vm.provision :shell, :inline => "weave launch -iprange 10.20.0.0/16 #{know_peers.join(' ')} || true"
           config.vm.provision :shell, :inline => "weave launch-dns 10.23.11.#{10+x}/24"
 
