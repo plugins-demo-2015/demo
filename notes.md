@@ -11,3 +11,12 @@ $ git clone https://github.com/docker/swarm
 $ cd swarm
 $ godep go install .
 ```
+
+#### to install curl with OpenSSL on OSX:
+
+```bash
+$ brew install curl --with-openssl
+brew link --force curl
+hash -r
+curl --version
+```
