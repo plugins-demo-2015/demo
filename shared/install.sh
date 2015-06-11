@@ -53,7 +53,7 @@ stop docker.io
 cp $COMPILED_FILES/docker /usr/bin/docker
 chmod a+x /usr/bin/docker
 cp /tmp/dockerupstart.conf /etc/init/docker.io.conf
-cp /tmp/dockerdefaults /etc/defaults/docker.io
+cp /tmp/dockerdefaults /etc/default/docker.io
 start docker.io
 sleep 5
 
