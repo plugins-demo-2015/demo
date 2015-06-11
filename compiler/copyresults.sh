@@ -5,7 +5,7 @@
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 AMI_TARGET_DIR="$DIR/../amibuilder/compiled/files"
 VAGRANT_TARGET_DIR="$DIR/../vagrantbuilder/compiled/files"
-DOCKER_NAME="1.7.0-dev-experimental"
+DOCKER_NAME="1.7.0-dev"
 
 copy-files() {
     local TARGET_DIR="$1";
