@@ -64,4 +64,5 @@ docker pull errordeveloper/iojs-minimal-runtime:v1.0.1
 docker pull weaveworks/weave:$weave_release
 docker pull weaveworks/weavedns:$weave_release
 docker pull weaveworks/weaveexec:$weave_release
+docker pull binocarlos/ubunturedis:latest
 docker load -i $COMPILED_FILES/plugin.tar
