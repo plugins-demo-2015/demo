@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e
+set -ex
 
 weave_release='0.11.2'
 
