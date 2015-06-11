@@ -30,7 +30,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     master.vm.network :private_network, :ip => "172.16.70.250"
     master.vm.hostname = "master"
     master.vm.provider "virtualbox" do |v|
-      v.memory = 1536
+      v.memory = 1024
     end
     master.vm.provision :shell, inline: $install_keys + $make_zpool
   end
@@ -39,7 +39,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     runner1.vm.network :private_network, :ip => "172.16.70.251"
     runner1.vm.hostname = "runner-1"
     runner1.vm.provider "virtualbox" do |v|
-      v.memory = 1536
+      v.memory = 1024
     end
     runner1.vm.provision :shell, inline: $install_keys + $make_zpool
   end
@@ -48,7 +48,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     runner2.vm.network :private_network, :ip => "172.16.70.252"
     runner2.vm.hostname = "runner-2"
     runner2.vm.provider "virtualbox" do |v|
-      v.memory = 1536
+      v.memory = 1024
     end
     runner2.vm.provision :shell, inline: $install_keys + $make_zpool
   end
