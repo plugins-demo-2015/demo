@@ -103,7 +103,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
               -v /proc:/hostproc
             ).join(' '),
             cmd: %W(
-              -nameserver=10.23.11.#{10+x}
+              -nameserver=10.23.11.10
               -debug=true
               -socket=/usr/share/docker/plugins/weave.sock
             ).join(' ')
