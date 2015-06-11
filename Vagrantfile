@@ -84,6 +84,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           config.vm.provision :shell, :inline => "weave launch -iprange 10.20.0.0/16 #{know_peers.join(' ')} || true"
           config.vm.provision :shell, :inline => "weave launch-dns 10.23.11.#{10+x}/24"
 
+          config.vm.provision :shell, :inline => $weavedns_route
+
           config.vm.provision :shell, :inline => "mkdir -p /etc/flocker"
           config.vm.provision :shell,
           :inline => "echo #{ips[vm_name]} > /etc/flocker/my_address"
