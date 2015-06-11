@@ -5,14 +5,15 @@ VAGRANTFILE_API_VERSION = "2"
 PROJECTS_HOME = ENV['PROJECTS_HOME'] || "../"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "ubuntu/trusty64"
-  config.vm.network :private_network, :ip => "172.16.20.250"
-  config.vm.hostname = "vagrantbuilder1"
-  config.vm.provider "virtualbox" do |v|
-    v.memory = 2048
-  end
-  config.vm.provision "file", source: "../install.sh", destination: "/tmp/install.sh"
-    config.vm.provision "file", source: "../docker.conf", destination: "/tmp/docker.conf"
+    config.vm.box = "ubuntu/trusty64"
+    config.vm.network :private_network, :ip => "172.16.20.250"
+    config.vm.hostname = "vagrantbuilder1"
+    config.vm.provider "virtualbox" do |v|
+        v.memory = 2048
+    end
+    config.vm.provision "file", source: "../shared/etc/init/docker.io.conf", destination: "/tmp/dockerupstart.conf"
+    config.vm.provision "file", source: "../shared/etc/default/docker.io", destination: "/tmp/dockerdefaults"
+    config.vm.provision "file", source: "../shared/install.sh", destination: "/tmp/install.sh"
     config.vm.provision "shell", inline: <<SCRIPT
 bash /tmp/install.sh
 bash /vagrant/installzfs.sh

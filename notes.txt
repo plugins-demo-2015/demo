@@ -1,4 +1,0 @@
-brew install curl --with-openssl
-brew link --force curl
-hash -r
-curl --version

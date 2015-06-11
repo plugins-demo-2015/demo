@@ -52,7 +52,8 @@ pip install -r /root/flocker-docker-plugin/requirements.txt
 stop docker.io
 cp $COMPILED_FILES/docker /usr/bin/docker
 chmod a+x /usr/bin/docker
-cp /tmp/docker.conf /etc/init/docker.io.conf
+cp /tmp/dockerupstart.conf /etc/init/docker.io.conf
+cp /tmp/dockerdefaults /etc/defaults/docker.io
 start docker.io
 sleep 5
 
