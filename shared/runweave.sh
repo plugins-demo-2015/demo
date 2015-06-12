@@ -7,7 +7,8 @@ peers="$@";
 
 mkdir -p /usr/share/docker/plugins
 docker rm -f weaveplugin || true
-weave reset
+weave stop
+weave stop-dns
 weave launch -iprange 10.20.0.0/16 $peers
 weave launch-dns 10.23.11.${index}/24
 
