@@ -22,6 +22,6 @@ docker run \
     -v /usr/share/docker/plugins:/usr/share/docker/plugins \
     -v /proc:/hostproc \
     weaveworks/plugin \
-    -nameserver=10.23.11.${index} \
+    -nameserver=10.23.11.10 \
     -debug=true \
     -socket=/usr/share/docker/plugins/weave.sock
