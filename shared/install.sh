@@ -66,3 +66,8 @@ docker pull weaveworks/weavedns:$weave_release
 docker pull weaveworks/weaveexec:$weave_release
 docker pull binocarlos/ubunturedis:latest
 docker load -i $COMPILED_FILES/plugin.tar
+
+# install compose
+git clone --depth 15 --single-branch --branch volume_driver https://github.com/lukemarsden/compose /root/compose
+(cd /root/compose; pip install -r requirements.txt; python setup.py install)
+
