@@ -13,7 +13,11 @@ weave launch -iprange 10.20.0.0/16 $peers
 weave launch-dns 10.23.11.${index}/24
 
 # setup routes
-nsenter -n -t `pgrep weavedns` ip route add 10.20.0.0/16 dev ethwe
+WEAVEDNS_PID=$(docker inspect --format='{{ .State.Pid }}' weavedns)
+[ ! -d /var/run/netns ] && sudo mkdir -p /var/run/netns
+ln -s /proc/$WEAVEDNS_PID/ns/net /var/run/netns/$WEAVEDNS_PID
+ip netns exec $WEAVEDNS_PID sudo ip route add 10.20.0.0/16 dev ethwe
+rm -f /var/run/netns/$WEAVEDNS_PID
 
 docker run \
     -d \
