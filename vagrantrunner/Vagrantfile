@@ -3,12 +3,6 @@
 
 VAGRANTFILE_API_VERSION = "2"
 
-$restart_docker = <<SCRIPT
-stop docker.io
-rm -f /etc/docker/key.json
-start docker.io
-SCRIPT
-
 $install_keys = <<SCRIPT
 cp /vagrant/insecure_private_key /root/.ssh/id_rsa
 cp /vagrant/insecure_public_key /root/.ssh/id_rsa.pub
@@ -29,8 +23,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.cache.scope = :box
   end
 
-  config.vm.box = "docker-plugins-demo-vagrant-v7"
-  config.vm.box_url = "http://storage.googleapis.com/experiments-clusterhq/vagrant-boxes/flocker-ubuntu14.04-zfs-v7.box"
+  config.vm.box = "docker-plugins-demo-vagrant-v9887"
+  config.vm.box_url = "file:///Users/ilya/Code/docker-plugins-demo/vagrantbuilder/vagrant1434176713.box"
 
   #config.vm.box = "v7local"
   #config.vm.box_url = "file:///Users/kai/projects/docker-plugins-demo/vagrantbuilder/vagrant1434118276.box"
@@ -41,7 +35,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     master.vm.provider "virtualbox" do |v|
       v.memory = 1024
     end
-    master.vm.provision :shell, inline: $restart_docker + $install_keys + $make_zpool
+    master.vm.provision :shell, inline: $install_keys + $make_zpool
     config.vm.provision "file", source: "../shared/runweave.sh", destination: "/tmp/runweave.sh"
   end
 
@@ -51,7 +45,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     runner1.vm.provider "virtualbox" do |v|
       v.memory = 1024
     end
-    runner1.vm.provision :shell, inline: $restart_docker + $install_keys + $make_zpool
+    runner1.vm.provision :shell, inline: $install_keys + $make_zpool
     config.vm.provision "file", source: "../shared/runweave.sh", destination: "/tmp/runweave.sh"
   end
 
@@ -61,7 +55,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     runner2.vm.provider "virtualbox" do |v|
       v.memory = 1024
     end
-    runner2.vm.provision :shell, inline: $restart_docker + $install_keys + $make_zpool
+    runner2.vm.provision :shell, inline: $install_keys + $make_zpool
     config.vm.provision "file", source: "../shared/runweave.sh", destination: "/tmp/runweave.sh"
   end
 end
