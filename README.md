@@ -16,13 +16,34 @@ $ make -C vagrantrunner
 
 This will use pre-packed boxes that has everything installed - start 3 VMs and then install the Flocker and Weave plugins.
 
-Once the boxes have started:
+Once the boxes have started - we create the weave network on each of the nodes
+and start the swarm master:
 
 ```bash
-$ vagrant ssh master
-$ cd /vagrant/app
-$ docker-compose up -d
+$ cd vagrantrunner
+$ bash create_network.sh
+$ bash swarm_manage.sh
 ```
+
+Then in another shell, we check that swarm is working and that the plugins are running:
+
+```bash
+$ cd vagrantrunner
+$ vagrant ssh master
+master$ export DOCKER_HOST=localhost:2378
+master$ docker ps -a
+```
+
+Then we bring up the app using `docker-compose`:
+
+
+```bash
+master$ cd /vagrant/app
+master$ docker-compose up
+```
+
+
+
 
 ## AWS Quickstart
 
