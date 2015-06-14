@@ -23,8 +23,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.cache.scope = :box
   end
 
-  config.vm.box = "docker-plugins-demo-vagrant-v9887"
-  config.vm.box_url = "file:///Users/ilya/Code/docker-plugins-demo/vagrantbuilder/vagrant1434176713.box"
+  config.vm.box = "docker-plugins-demo-vagrant-v9888"
+  config.vm.box_url = "file:///Users/luke/Projects/docker-plugins-demo/vagrantbuilder/vagrant1434290005.box"
+  #config.vm.box_url = "file:///Users/ilya/Code/docker-plugins-demo/vagrantbuilder/vagrant1434176713.box"
 
   #config.vm.box = "v7local"
   #config.vm.box_url = "file:///Users/kai/projects/docker-plugins-demo/vagrantbuilder/vagrant1434118276.box"
