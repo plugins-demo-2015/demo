@@ -154,6 +154,8 @@ Once the box has been created - upload it to a public cloud and paste the url in
 
 ### Runner
 
+Install flocker-cli`
+
 This uses vagrant-aws to spin up 3 nodes for the actual demo - one of the 3 nodes is designated `master` (i.e. it runs the Flocker control service)
 
 ```
