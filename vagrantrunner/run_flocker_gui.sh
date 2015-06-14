@@ -12,8 +12,9 @@ docker run --name experimental-volumes-gui \
     -v $CERTS/$USERNAME.crt:/user.crt \
     -v $CERTS/cluster.crt:/cluster.crt \
     clusterhq/experimental-volumes-gui
+sleep 5
 if which boot2docker >/dev/null; then
     open "http://$(boot2docker ip)/client/#/nodes/list"
 else
-    open "http://localhost/client/#/nodes/list"
+    echo "Open http://localhost/client/#/nodes/list in a browser."
 fi
