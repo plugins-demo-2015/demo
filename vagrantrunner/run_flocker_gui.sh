@@ -3,6 +3,7 @@ cd unofficial-flocker-tools
 export CERTS=$PWD
 export CONTROL_SERVICE=172.16.70.250
 export USERNAME=flockerdemo
+docker rm -f experimental-volumes-gui 2>/dev/null
 docker run --name experimental-volumes-gui \
     -d -p 80:80 \
     -e CONTROL_SERVICE=$CONTROL_SERVICE \
@@ -12,7 +13,7 @@ docker run --name experimental-volumes-gui \
     -v $CERTS/$USERNAME.crt:/user.crt \
     -v $CERTS/cluster.crt:/cluster.crt \
     clusterhq/experimental-volumes-gui
-sleep 5
+sleep 2
 if which boot2docker >/dev/null; then
     open "http://$(boot2docker ip)/client/#/nodes/list"
 else
