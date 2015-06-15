@@ -25,13 +25,11 @@ $ bash create_network.sh
 $ bash swarm_manage.sh
 ```
 
-Then in another shell, we check that swarm is working and that the plugins are running:
+Then in another shell, we SSH into the master:
 
 ```bash
 $ cd vagrantrunner
 $ vagrant ssh master
-master$ export DOCKER_HOST=localhost:2378
-master$ docker ps -a
 ```
 
 Then we start the HTTP load balancer that opens up the open to the outside world:
@@ -41,9 +39,11 @@ master$ cd /vagrant
 master$ bash run_proxy.sh
 ```
 
-Then we bring up the app using `docker-compose`:
+Then we check that swarm is working and that the plugins are running, then bring up the app using `docker-compose`:
 
 ```bash
+master$ export DOCKER_HOST=localhost:2378
+master$ docker ps -a
 master$ cd /vagrant/app
 master$ docker-compose up
 ```
