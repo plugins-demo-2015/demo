@@ -9,7 +9,6 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 master="172.16.70.250"
 runner1="172.16.70.251"
-runner2="172.16.70.252"
 
 # clone $TOOLS_REPO
 # generate cluster.yml
@@ -23,7 +22,6 @@ cluster_name: flockerdemovagrant
 agent_nodes:
  - {public: $master, private: $master}
  - {public: $runner1, private: $runner1}
- - {public: $runner2, private: $runner2}
 control_node: $master
 users:
  - flockerdemo
