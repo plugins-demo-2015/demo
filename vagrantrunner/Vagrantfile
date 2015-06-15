@@ -23,8 +23,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.cache.scope = :box
   end
 
-  config.vm.box = "docker-plugins-demo-vagrant-ubuntu-v8"
-  config.vm.box_url = "http://storage.googleapis.com/experiments-clusterhq/vagrant-boxes/flocker-ubuntu14.04-zfs-v8.box"
+  config.vm.box = "docker-plugins-demo-vagrant-1434176713"
+  config.vm.box_url = "https://www.dropbox.com/s/kn96fb0qrnsykk1/vagrant1434176713.box?dl=1"
 
   config.vm.define "master" do |master|
     master.vm.network :private_network, :ip => "172.16.70.250"
