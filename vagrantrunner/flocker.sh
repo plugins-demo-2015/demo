@@ -3,7 +3,7 @@
 set -e
 
 export TOOLS_REPO=${TOOLS_REPO:=https://github.com/clusterhq/unofficial-flocker-tools}
-export TOOLS_BRANCH=${TOOLS_BRANCH:=prototype-volumes-cli}
+export TOOLS_BRANCH=${TOOLS_BRANCH:=master}
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
