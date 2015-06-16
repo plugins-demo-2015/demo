@@ -30,13 +30,15 @@ $ sudo docker network create -d weave demonet
 on node1 (in new window):
 
 ```
-$ sudo docker run --rm -ti --net=demonet --name=server --hostname=server.weave.local --dns=10.23.11.10 gliderlabs/alpine nc -p 4000 -lk -e echo HELLO
+$ sudo docker run --rm -ti --net=demonet --name=server --hostname=server.weave.local --dns=10.23.11.10 \
+    gliderlabs/alpine nc -p 4000 -lk -e echo HELLO
 ```
 
 on node2 (in new window):
 
 ```
-$ sudo docker run --rm -ti --net=demonet --name=client --hostname=client.weave.local --dns=10.23.11.10 gliderlabs/alpine nc server.weave.local 4000
+$ sudo docker run --rm -ti --net=demonet --name=client --hostname=client.weave.local --dns=10.23.11.10 \
+    gliderlabs/alpine nc server.weave.local 4000
 ```
 
 
