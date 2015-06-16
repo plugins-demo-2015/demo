@@ -35,8 +35,8 @@ $ vagrant ssh master
 Then we start the HTTP load balancer that opens up the open to the outside world:
 
 ```bash
-master$ cd /vagrant
 master$ sudo su -
+master# cd /vagrant
 master# bash run_proxy.sh
 ```
 
