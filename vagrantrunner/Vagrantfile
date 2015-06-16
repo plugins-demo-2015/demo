@@ -3,6 +3,10 @@
 
 VAGRANTFILE_API_VERSION = "2"
 
+$update_flocker_plugin = <<SCRIPT
+cd /root/flocker-docker-plugin && git pull
+SCRIPT
+
 $install_keys = <<SCRIPT
 cp /vagrant/insecure_private_key /root/.ssh/id_rsa
 cp /vagrant/insecure_public_key /root/.ssh/id_rsa.pub
@@ -32,7 +36,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     master.vm.provider "virtualbox" do |v|
       v.memory = 1536
     end
-    master.vm.provision :shell, inline: $install_keys + $make_zpool
+    master.vm.provision :shell, inline: $update_flocker_plugin + $install_keys + $make_zpool
     config.vm.provision "file", source: "../shared/runweave.sh", destination: "/tmp/runweave.sh"
   end
 
@@ -42,7 +46,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     runner.vm.provider "virtualbox" do |v|
       v.memory = 1536
     end
-    runner.vm.provision :shell, inline: $install_keys + $make_zpool
+    runner.vm.provision :shell, inline: $update_flocker_plugin + $install_keys + $make_zpool
     config.vm.provision "file", source: "../shared/runweave.sh", destination: "/tmp/runweave.sh"
   end
 
