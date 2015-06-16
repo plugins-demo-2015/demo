@@ -17,7 +17,7 @@ CGROUPSFS_FOLDER="http://ftp.uk.debian.org/debian/pool/main/c/cgroupfs-mount"
 CGROUPSFS_BINARY="cgroupfs-mount_1.2_all.deb"
 COMPILED_FILES="/vagrant/compiled/files"
 PLUGIN_REPO="https://github.com/clusterhq/flocker-docker-plugin"
-PLUGIN_BRANCH="tls-to-control-service"
+PLUGIN_BRANCH="master"
 
 # deps
 add-apt-repository -y ppa:james-page/docker
@@ -65,6 +65,8 @@ docker pull weaveworks/weave:$weave_release
 docker pull weaveworks/weavedns:$weave_release
 docker pull weaveworks/weaveexec:$weave_release
 docker pull binocarlos/ubunturedis:latest
+docker pull binocarlos/moby-counter:latest
+docker pull clusterhq/experimental-volumes-gui:latest
 docker load -i $COMPILED_FILES/plugin.tar
 
 # install compose
