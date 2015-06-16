@@ -11,7 +11,7 @@ redis:
   net: demonet
   dns: 10.23.11.10
   environment:
-     - "affinity:container==app_web_*"
+     - "constraint:node==master"
   volume_driver: flocker
   volumes:
      - 'demo:/data'
