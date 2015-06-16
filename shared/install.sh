@@ -67,6 +67,7 @@ docker pull weaveworks/weaveexec:$weave_release
 docker pull binocarlos/ubunturedis:latest
 docker pull binocarlos/moby-counter:latest
 docker pull clusterhq/experimental-volumes-gui:latest
+docker pull gliderlabs/alpine:latest
 docker load -i $COMPILED_FILES/plugin.tar
 
 # install compose
