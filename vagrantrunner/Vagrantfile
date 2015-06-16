@@ -4,7 +4,7 @@
 VAGRANTFILE_API_VERSION = "2"
 
 $update_flocker_plugin = <<SCRIPT
-cd /root/flocker-docker-plugin && git pull && git checkout master
+cd /root/flocker-docker-plugin && git checkout master && git pull
 SCRIPT
 
 $install_keys = <<SCRIPT
