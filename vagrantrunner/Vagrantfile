@@ -36,13 +36,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.provision "file", source: "../shared/runweave.sh", destination: "/tmp/runweave.sh"
   end
 
-  config.vm.define "runner-1" do |runner1|
-    runner1.vm.network :private_network, :ip => "172.16.70.251"
-    runner1.vm.hostname = "runner-1"
-    runner1.vm.provider "virtualbox" do |v|
+  config.vm.define "runner" do |runner|
+    runner.vm.network :private_network, :ip => "172.16.70.251"
+    runner.vm.hostname = "runner"
+    runner.vm.provider "virtualbox" do |v|
       v.memory = 1536
     end
-    runner1.vm.provision :shell, inline: $install_keys + $make_zpool
+    runner.vm.provision :shell, inline: $install_keys + $make_zpool
     config.vm.provision "file", source: "../shared/runweave.sh", destination: "/tmp/runweave.sh"
   end
 

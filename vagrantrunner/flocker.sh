@@ -8,7 +8,7 @@ export TOOLS_BRANCH=${TOOLS_BRANCH:=master}
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 master="172.16.70.250"
-runner1="172.16.70.251"
+runner="172.16.70.251"
 
 # clone $TOOLS_REPO
 # generate cluster.yml
@@ -21,7 +21,7 @@ cat << EOF > $DIR/unofficial-flocker-tools/cluster.yml
 cluster_name: flockerdemovagrant
 agent_nodes:
  - {public: $master, private: $master}
- - {public: $runner1, private: $runner1}
+ - {public: $runner, private: $runner}
 control_node: $master
 users:
  - flockerdemo
