@@ -15,6 +15,7 @@ $ cd ~
 $ mkdir demo2
 $ cd demo2
 $ git clone git@github.com:clusterhq/docker-plugins-demo
+$ cd docker-plugins-demo
 $ make -C vagrantrunner
 ```
 
