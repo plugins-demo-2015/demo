@@ -50,4 +50,4 @@ PLUGIN_REPO=https://github.com/clusterhq/flocker-docker-plugin \
 PLUGIN_BRANCH=master \
 SKIP_DOCKER_BINARY=yes \
 SKIP_INSTALL_PLUGIN=yes \
-flocker-plugin-install cluster.yml)
+flocker-plugin-install)
