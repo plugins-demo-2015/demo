@@ -32,6 +32,9 @@ apt-get install -y \
   xz-utils \
   python-dev \
   python-pip \
+  build-essential \
+  libssl-dev \
+  libffi-dev \
   git
 
 # there is no package for cgroupfs-mount on Ubuntu 14.04 so we install manually
@@ -45,8 +48,8 @@ curl -L -o /usr/bin/weave https://github.com/weaveworks/weave/releases/download/
 chmod a+x /usr/bin/weave
 
 # clone and install the flocker-docker-plugin
-git clone -b $PLUGIN_BRANCH $PLUGIN_REPO /root/flocker-docker-plugin
-pip install -r /root/flocker-docker-plugin/requirements.txt
+#git clone -b $PLUGIN_BRANCH $PLUGIN_REPO /root/flocker-docker-plugin
+#pip install -r /root/flocker-docker-plugin/requirements.txt
 
 # setup docker - this involves removing the docker.io package installed alongside flocker
 stop docker.io
