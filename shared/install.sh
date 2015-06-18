@@ -16,8 +16,8 @@ BASE_DEB_FOLDER="http://build.clusterhq.com/results/omnibus/more-valid-state-inv
 CGROUPSFS_FOLDER="http://ftp.uk.debian.org/debian/pool/main/c/cgroupfs-mount"
 CGROUPSFS_BINARY="cgroupfs-mount_1.2_all.deb"
 COMPILED_FILES="/vagrant/compiled/files"
-PLUGIN_REPO="https://github.com/clusterhq/flocker-docker-plugin"
-PLUGIN_BRANCH="master"
+PLUGIN_REPO="https://github.com/robhaswell/flocker-docker-plugin"
+PLUGIN_BRANCH="setup.py-LABS-93"
 
 # deps
 add-apt-repository -y ppa:james-page/docker
@@ -47,9 +47,8 @@ apt-get -y --force-yes install clusterhq-flocker-node clusterhq-flocker-cli
 curl -L -o /usr/bin/weave https://github.com/weaveworks/weave/releases/download/v$weave_release/weave
 chmod a+x /usr/bin/weave
 
-# clone and install the flocker-docker-plugin
-#git clone -b $PLUGIN_BRANCH $PLUGIN_REPO /root/flocker-docker-plugin
-#pip install -r /root/flocker-docker-plugin/requirements.txt
+# install the flocker plugin from git using pip
+pip install git+$PLUGIN_REPO@$PLUGIN_BRANCH
 
 # setup docker - this involves removing the docker.io package installed alongside flocker
 stop docker.io
