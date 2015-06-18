@@ -2,8 +2,8 @@
 
 set -e
 
-export TOOLS_REPO=${TOOLS_REPO:=https://github.com/robhaswell/unofficial-flocker-tools}
-export TOOLS_BRANCH=${TOOLS_BRANCH:=setuptools}
+#export TOOLS_REPO=${TOOLS_REPO:=https://github.com/robhaswell/unofficial-flocker-tools}
+#export TOOLS_BRANCH=${TOOLS_BRANCH:=setuptools}
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
@@ -13,9 +13,10 @@ runner="172.16.70.251"
 # clone $TOOLS_REPO
 # generate cluster.yml
 # run deploy.py
-rm -rf /root/unofficial-flocker-tools
-git clone -b $TOOLS_BRANCH $TOOLS_REPO /root/unofficial-flocker-tools
-pip install /root/unofficial-flocker-tools
+#rm -rf /root/unofficial-flocker-tools
+#git clone -b $TOOLS_BRANCH $TOOLS_REPO /root/unofficial-flocker-tools
+#pip install /root/unofficial-flocker-tools
+
 rm -rf $DIR/_certs && mkdir -p $DIR/_certs
 
 # write the cluster.yml that will control the tools
@@ -40,7 +41,7 @@ EOF
 
 # this step will get the core flocker services running
 # and upload the certs required
-(cd $DIR/_certs && flocker-config)
+(cd $DIR/_certs && flocker-config cluster.yml)
 # this step will get the flocker plugin running
 # and upload the certs required
 (cd $DIR/_certs && \
@@ -50,4 +51,4 @@ PLUGIN_REPO=https://github.com/clusterhq/flocker-docker-plugin \
 PLUGIN_BRANCH=master \
 SKIP_DOCKER_BINARY=yes \
 SKIP_INSTALL_PLUGIN=yes \
-flocker-plugin-install)
+flocker-plugin-install cluster.yml)

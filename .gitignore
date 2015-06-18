@@ -14,4 +14,4 @@ ehthumbs.db
 *.box
 .build
 runner/test/docker*
-unofficial-flocker-tools
+vagrantrunner/_certs
