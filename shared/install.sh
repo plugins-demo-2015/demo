@@ -16,8 +16,8 @@ BASE_DEB_FOLDER="http://build.clusterhq.com/results/omnibus/more-valid-state-inv
 CGROUPSFS_FOLDER="http://ftp.uk.debian.org/debian/pool/main/c/cgroupfs-mount"
 CGROUPSFS_BINARY="cgroupfs-mount_1.2_all.deb"
 COMPILED_FILES="/vagrant/compiled/files"
-PLUGIN_REPO="https://github.com/robhaswell/flocker-docker-plugin"
-PLUGIN_BRANCH="setup.py-LABS-93"
+PLUGIN_REPO="https://github.com/clusterhq/flocker-docker-plugin"
+PLUGIN_BRANCH="master"
 
 # deps
 add-apt-repository -y ppa:james-page/docker
