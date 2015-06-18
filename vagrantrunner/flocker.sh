@@ -47,8 +47,7 @@ EOF
 (cd $DIR/_certs && \
 DOCKER_BINARY_URL="http://storage.googleapis.com/experiments-clusterhq/docker-binaries/docker-volumes-network-combo" \
 DOCKER_SERVICE_NAME=docker.io \
-PLUGIN_REPO=https://github.com/clusterhq/flocker-docker-plugin \
-PLUGIN_BRANCH=master \
+PLUGIN_REPO=https://github.com/robhaswell/flocker-docker-plugin \
+PLUGIN_BRANCH=setup.py-LABS-93 \
 SKIP_DOCKER_BINARY=yes \
-SKIP_INSTALL_PLUGIN=yes \
 flocker-plugin-install cluster.yml)
