@@ -28,6 +28,7 @@ and start the swarm master:
 ```bash
 $ cd vagrantrunner
 $ bash create_network.sh
+$ bash launch_scope.sh
 $ bash swarm_manage.sh
 ```
 
