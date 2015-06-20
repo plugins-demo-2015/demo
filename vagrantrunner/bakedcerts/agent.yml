@@ -1,0 +1,3 @@
+control-service: {hostname: 172.16.70.250, port: 4524}
+dataset: {backend: zfs}
+version: 1

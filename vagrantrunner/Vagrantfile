@@ -3,23 +3,7 @@
 
 VAGRANTFILE_API_VERSION = "2"
 
-$update_flocker_plugin = <<SCRIPT
-cd /root/flocker-docker-plugin && git checkout master && git pull
-SCRIPT
-
-$install_keys = <<SCRIPT
-cp /vagrant/insecure_private_key /root/.ssh/id_rsa
-cp /vagrant/insecure_public_key /root/.ssh/id_rsa.pub
-cat /vagrant/insecure_public_key >> /root/.ssh/authorized_keys
-chmod 0600 /root/.ssh/id_rsa /root/.ssh/id_rsa.pub
-SCRIPT
-
-$make_zpool = <<SCRIPT
-#mkdir -p /var/opt/flocker2
-#truncate --size 10G /var/opt/flocker2/pool-vdev
-#zpool create flocker /var/opt/flocker2/pool-vdev
-#zpool import -d /var/opt/flocker/pool-vdev flocker
-SCRIPT
+load 'runner_scripts.rb'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
@@ -29,7 +13,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   #config.vm.box = "docker-plugins-demo-vagrant-ubuntu-v10"
   #config.vm.box_url = "http://storage.googleapis.com/experiments-clusterhq/vagrant-boxes/flocker-ubuntu14.04-zfs-v10.box"
-  config.vm.box = "docker-plugins-demo-local-v12"
+  config.vm.box = "docker-plugins-demo-vagrant-ubuntu-v12-local"
   config.vm.box_url = "file:///Users/kai/projects/docker-plugins-demo/vagrantbuilder/flocker-ubuntu14.04-zfs-v12.box"
 
   config.vm.define "master" do |master|
@@ -38,8 +22,34 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     master.vm.provider "virtualbox" do |v|
       v.memory = 1536
     end
-    master.vm.provision :shell, inline: $install_keys + $make_zpool
-    config.vm.provision "file", source: "../shared/runweave.sh", destination: "/tmp/runweave.sh"
+
+    master.vm.provision :shell, inline: $prepare_flocker + $install_keys
+    
+    master.vm.provision "file", source: "./bakedcerts/cluster.crt", destination: "/tmp/flocker_certs/cluster.crt"
+
+    master.vm.provision "file", source: "./bakedcerts/09727403-45a3-4e50-99ac-4ab9f4a13a8a.crt", destination: "/tmp/flocker_certs/node.crt"
+    master.vm.provision "file", source: "./bakedcerts/09727403-45a3-4e50-99ac-4ab9f4a13a8a.key", destination: "/tmp/flocker_certs/node.key"
+
+    master.vm.provision "file", source: "./bakedcerts/control-172.16.70.250.crt", destination: "/tmp/flocker_certs/control-service.crt"
+    master.vm.provision "file", source: "./bakedcerts/control-172.16.70.250.key", destination: "/tmp/flocker_certs/control-service.key"
+
+    master.vm.provision "file", source: "./bakedcerts/172.16.70.250-plugin.crt", destination: "/tmp/flocker_certs/plugin.crt"
+    master.vm.provision "file", source: "./bakedcerts/172.16.70.250-plugin.key", destination: "/tmp/flocker_certs/plugin.key"
+
+    master.vm.provision "file", source: "./bakedcerts/agent.yml", destination: "/tmp/flocker_certs/agent.yml"
+    
+    master.vm.provision :shell, inline: $copy_certs + $flocker_control + $flocker_node + $flocker_plugin_master
+
+    master.vm.provision "file", source: "../shared/runweave.sh", destination: "/tmp/runweave.sh"
+
+    master.vm.provision "shell", inline: <<SCRIPT
+bash /tmp/runweave.sh 10 172.16.70.251
+#sleep 5
+#docker network create -d weave demonet
+#/vagrant/bin/swarm manage --host 0.0.0.0:2378 172.16.70.250:2375,172.16.70.251:2375 &
+#bash /vagrant/run_proxy.sh
+SCRIPT
+
   end
 
   config.vm.define "runner" do |runner|
@@ -48,8 +58,28 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     runner.vm.provider "virtualbox" do |v|
       v.memory = 1536
     end
-    runner.vm.provision :shell, inline: $install_keys + $make_zpool
-    config.vm.provision "file", source: "../shared/runweave.sh", destination: "/tmp/runweave.sh"
+
+    runner.vm.provision :shell, inline: $prepare_flocker + $install_keys
+
+    runner.vm.provision "file", source: "./bakedcerts/cluster.crt", destination: "/tmp/flocker_certs/cluster.crt"
+
+    runner.vm.provision "file", source: "./bakedcerts/73b58895-4a6e-432a-8a85-44dfe756bc20.crt", destination: "/tmp/flocker_certs/node.crt"
+    runner.vm.provision "file", source: "./bakedcerts/73b58895-4a6e-432a-8a85-44dfe756bc20.key", destination: "/tmp/flocker_certs/node.key"
+
+    runner.vm.provision "file", source: "./bakedcerts/172.16.70.251-plugin.crt", destination: "/tmp/flocker_certs/plugin.crt"
+    runner.vm.provision "file", source: "./bakedcerts/172.16.70.251-plugin.key", destination: "/tmp/flocker_certs/plugin.key"
+
+    runner.vm.provision "file", source: "./bakedcerts/agent.yml", destination: "/tmp/flocker_certs/agent.yml"
+
+    runner.vm.provision :shell, inline: $copy_certs + $flocker_node + $flocker_plugin_runner
+
+    runner.vm.provision "file", source: "../shared/runweave.sh", destination: "/tmp/runweave.sh"
+
+    runner.vm.provision "shell", inline: <<SCRIPT
+bash /tmp/runweave.sh 11 172.16.70.250
+#docker network create -d weave demonet
+SCRIPT
+
   end
 
 end

@@ -1,0 +1,16 @@
+cluster_name: flockerdemovagrant
+agent_nodes:
+ - {public: 172.16.70.250, private: 172.16.70.250}
+ - {public: 172.16.70.251, private: 172.16.70.251}
+control_node: 172.16.70.250
+users:
+ - flockerdemo
+os: ubuntu
+private_key_path: /Users/kai/projects/docker-plugins-demo/vagrantrunner/insecure_private_key
+agent_config:
+  version: 1
+  control-service:
+     hostname: 172.16.70.250
+     port: 4524
+  dataset:
+    backend: "zfs"
