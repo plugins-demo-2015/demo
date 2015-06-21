@@ -11,11 +11,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.cache.scope = :box
   end
 
-  #config.vm.box = "docker-plugins-demo-vagrant-ubuntu-v10"
-  #config.vm.box_url = "http://storage.googleapis.com/experiments-clusterhq/vagrant-boxes/flocker-ubuntu14.04-zfs-v10.box"
-  config.vm.box = "docker-plugins-demo-vagrant-ubuntu-v12-local"
-  config.vm.box_url = "file:///Users/kai/projects/docker-plugins-demo/vagrantbuilder/flocker-ubuntu14.04-zfs-v12.box"
-
+  config.vm.box = "docker-plugins-demo-vagrant-ubuntu-v12"
+  config.vm.box_url = "http://storage.googleapis.com/experiments-clusterhq/vagrant-boxes/flocker-ubuntu14.04-zfs-v12.box"
+  
   config.vm.define "master" do |master|
     master.vm.network :private_network, :ip => "172.16.70.250"
     master.vm.hostname = "master"
