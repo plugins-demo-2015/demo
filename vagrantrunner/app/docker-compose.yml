@@ -5,13 +5,14 @@ web:
   dns: 10.23.11.10
   environment:
      - "USE_REDIS_HOST=redis.weave.local"
+     - "constraint:node==runner"
 redis:
   image: redis
   hostname: redis.weave.local
   publish_service: redis.demonet.weave
   dns: 10.23.11.10
   environment:
-     - "constraint:node==master"
+     - "constraint:node==runner"
   volume_driver: flocker
   volumes:
      - 'demo:/data'
