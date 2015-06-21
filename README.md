@@ -4,15 +4,7 @@ A demo of the Flocker and Weave Docker plugins.
 
 ## Vagrant Quickstart
 
-To spin up the cluster using Vagrant you must first install these tools on your host machine:
-
- * [flocker-cli](https://docs.clusterhq.com/en/latest/using/installing/index.html#installing-flocker-cli)
- * [unofficial-flocker-tools](https://github.com/clusterhq/unofficial-flocker-tools)
-
-NOTE: if you install unofficial-flocker-tools in a virtualenv, you must activate
-the virtualenv before running through this demo
-
-You will also need Vagrant and Virtualbox installed.
+You will also need Vagrant 1.7.2 and Virtualbox installed.
 
 Then:
 
