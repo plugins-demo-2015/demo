@@ -40,6 +40,7 @@ master# docker ps -a
 master# cd /vagrant/app
 master# docker-compose up -d
 master# docker ps -a | grep redis
+master# docker ps -a | grep web
 ```
 
 Then we start the HTTP load balancer that opens up the open to the outside world:
@@ -61,11 +62,10 @@ Now we migrate the stateful database to another node.
 
 ```
 master# cd /vagrant/app
-master# docker-compose stop
-master# docker-compose rm -f
-master# vim docker-compose.yml # switch "runner" and "master" in the redis constraint
-master# docker-compose up -d
+master# vim docker-compose.yml # switch "runner" with "master" in the redis constraint
+master# docker-compose stop && docker-compose rm -f && docker-compose up -d
 master# docker ps -a | grep redis
+master# docker ps -a | grep web
 ```
 
 Observe that the database is both *still accessible* (thanks to Weave) and *still has its data* (thanks to Flocker).
