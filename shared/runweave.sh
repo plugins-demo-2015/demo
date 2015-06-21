@@ -2,12 +2,10 @@
 
 set -xe
 
-export WEAVE_VERSION=${WEAVE_VERSION:="0.11.2"}
+export WEAVE_VERSION=${WEAVE_VERSION:="1.0.1"}
 
 index="$1"; shift;
 peers="$@";
-
-ln -s /usr/bin/weave_$WEAVE_VERSION /usr/bin/weave
 
 mkdir -p /usr/share/docker/plugins
 rm -f /usr/share/docker/plugins/weave.sock

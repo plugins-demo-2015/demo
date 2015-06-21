@@ -2,6 +2,7 @@
 # vi: set ft=ruby :
 
 VAGRANTFILE_API_VERSION = "2"
+WEAVE_VERSION = ENV['WEAVE_VERSION'] || "1.0.1"
 
 load 'runner_scripts.rb'
 
@@ -44,10 +45,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     master.vm.provision "file", source: "../shared/runweave.sh", destination: "/tmp/runweave.sh"
 
     # once we have the plugin for 1.0.1 - we inject it here
-    #master.vm.provision "file", source: "../shared/binaries/plugin.1.0.1.tar", destination: "/tmp/plugin.1.0.1.tar"
+    master.vm.provision "file", source: "../shared/binaries/plugin.1.0.1.tar", destination: "/tmp/plugin.1.0.1.tar"
 
     master.vm.provision "shell", inline: <<SCRIPT
-WEAVE_VERSION=0.11.2 bash /tmp/runweave.sh 10 172.16.70.251
+WEAVE_VERSION=#{WEAVE_VERSION} bash /tmp/runweave.sh 10 172.16.70.251
 SCRIPT
 
   end
@@ -76,10 +77,10 @@ SCRIPT
     runner.vm.provision "file", source: "../shared/runweave.sh", destination: "/tmp/runweave.sh"
 
     # once we have the plugin for 1.0.1 - we inject it here
-    #runner.vm.provision "file", source: "../shared/binaries/plugin.1.0.1.tar", destination: "/tmp/plugin.1.0.1.tar"
+    runner.vm.provision "file", source: "../shared/binaries/plugin.1.0.1.tar", destination: "/tmp/plugin.1.0.1.tar"
 
     runner.vm.provision "shell", inline: <<SCRIPT
-WEAVE_VERSION=0.11.2 bash /tmp/runweave.sh 11 172.16.70.250
+WEAVE_VERSION=#{WEAVE_VERSION} bash /tmp/runweave.sh 11 172.16.70.250
 SCRIPT
 
   end

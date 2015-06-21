@@ -5,8 +5,7 @@
 export DEBIAN_FRONTEND=noninteractive
 set -ex
 
-weave_release_old='0.11.2'
-weave_release_new='1.0.1'
+weave_release='1.0.1'
 
 # vars
 #BASE_DEB_FOLDER="http://build.clusterhq.com/results/omnibus/storage-driver-configuration-FLOC-1925/ubuntu-14.04"
@@ -46,10 +45,8 @@ cd ~ && wget $CGROUPSFS_FOLDER/$CGROUPSFS_BINARY && dpkg -i $CGROUPSFS_BINARY
 apt-get -y --force-yes install clusterhq-flocker-node clusterhq-flocker-cli
 
 # copy weave scripts
-curl -s -L -o /usr/bin/weave_$weave_release_old https://github.com/weaveworks/weave/releases/download/v$weave_release_old/weave
-curl -s -L -o /usr/bin/weave_$weave_release_new https://github.com/weaveworks/weave/releases/download/v$weave_release_new/weave
-chmod a+x /usr/bin/weave_$weave_release_old
-chmod a+x /usr/bin/weave_$weave_release_new
+curl -s -L -o /usr/bin/weave https://github.com/weaveworks/weave/releases/download/v$weave_release/weave
+chmod a+x /usr/bin/weave
 
 # copy scope script
 cp /tmp/binaries/scope /usr/bin/scope
@@ -85,8 +82,7 @@ docker pull binocarlos/ubunturedis:latest
 docker pull binocarlos/moby-counter:latest
 docker pull clusterhq/experimental-volumes-gui:latest
 docker pull gliderlabs/alpine:latest
-docker load -i $COMPILED_FILES/plugin.$weave_release_old.tar
-docker load -i $COMPILED_FILES/plugin.$weave_release_new.tar
+docker load -i $COMPILED_FILES/plugin.$weave_release.tar
 docker load -i $COMPILED_FILES/scope.tar
 
 # install compose
