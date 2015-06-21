@@ -1,9 +1,19 @@
 #!/bin/bash
-cd unofficial-flocker-tools
 export CERTS=$PWD/bakedcerts
+echo $CERTS
+ls -alh $CERTS
 export CONTROL_SERVICE=172.16.70.250
 export USERNAME=flockerdemo
 docker rm -f experimental-volumes-gui 2>/dev/null
+echo docker run --name experimental-volumes-gui \
+    -d -p 80:80 \
+    -e CONTROL_SERVICE=$CONTROL_SERVICE \
+    -e USERNAME=user \
+    -e CERTS_PATH=/ \
+    -v $CERTS/$USERNAME.key:/user.key \
+    -v $CERTS/$USERNAME.crt:/user.crt \
+    -v $CERTS/cluster.crt:/cluster.crt \
+    clusterhq/experimental-volumes-gui
 docker run --name experimental-volumes-gui \
     -d -p 80:80 \
     -e CONTROL_SERVICE=$CONTROL_SERVICE \
