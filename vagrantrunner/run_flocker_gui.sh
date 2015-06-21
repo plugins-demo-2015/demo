@@ -1,6 +1,6 @@
 #!/bin/bash
 cd unofficial-flocker-tools
-export CERTS=$PWD
+export CERTS=$PWD/bakedcerts
 export CONTROL_SERVICE=172.16.70.250
 export USERNAME=flockerdemo
 docker rm -f experimental-volumes-gui 2>/dev/null
