@@ -28,6 +28,7 @@ and start the swarm master:
 ```bash
 $ cd vagrantrunner
 $ bash create_network.sh
+$ bash launch_scope.sh
 $ bash swarm_manage.sh
 ```
 
@@ -52,7 +53,7 @@ Then we check that swarm is working and that the plugins are running, then bring
 master# export DOCKER_HOST=localhost:2378
 master# docker ps -a
 master# cd /vagrant/app
-master# docker-compose up
+master# docker-compose up -d
 ```
 
 Now we can load the app in a browser:
@@ -62,6 +63,17 @@ http://172.16.70.250/
 ```
 
 Click around and add some Docker logos onto the screen.
+
+Now we migrate the stateful database to another node.
+
+```
+master# docker-compose stop
+master# docker-compose rm -f
+master# vim docker-compose.yml # switch "runner" and "master" in the redis constraint
+master# docker-compose up -d
+```
+
+Observe that the database is both *still accessible* (thanks to Weave) and *still has its data* (thanks to Flocker).
 
 ## AWS Quickstart
 
