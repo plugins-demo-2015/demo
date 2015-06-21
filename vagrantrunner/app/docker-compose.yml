@@ -1,7 +1,7 @@
 web:
   image: binocarlos/moby-counter
   hostname: hello.weave.local
-  publish_service: web.demonet.weave
+  publish_service: hello.demonet.weave
   dns: 10.23.11.10
   environment:
      - "USE_REDIS_HOST=redis.weave.local"
