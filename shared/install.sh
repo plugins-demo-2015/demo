@@ -32,6 +32,7 @@ apt-get install -y \
   xz-utils \
   python-dev \
   python-pip \
+  python-openssl \
   build-essential \
   libssl-dev \
   libffi-dev \
