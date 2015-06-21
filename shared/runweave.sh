@@ -2,10 +2,15 @@
 
 set -xe
 
+export WEAVE_VERSION=${WEAVE_VERSION:="0.11.2"}
+
 index="$1"; shift;
 peers="$@";
 
+ln -s /usr/bin/weave_$WEAVE_VERSION /usr/bin/weave
+
 mkdir -p /usr/share/docker/plugins
+rm -f /usr/share/docker/plugins/weave.sock
 docker rm -f weaveplugin || true
 weave stop
 weave stop-dns
@@ -26,7 +31,7 @@ docker run \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v /usr/share/docker/plugins:/usr/share/docker/plugins \
     -v /proc:/hostproc \
-    weaveworks/plugin \
+    weaveworks/plugin:$WEAVE_VERSION \
     -nameserver=10.23.11.10 \
     -debug=true \
     -socket=/usr/share/docker/plugins/weave.sock

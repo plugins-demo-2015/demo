@@ -11,7 +11,7 @@ redis:
   publish_service: redis.demonet.weave
   dns: 10.23.11.10
   environment:
-     - "constraint:node==master"
+     - "constraint:node==runner"
   volume_driver: flocker
   volumes:
      - 'demo:/data'
