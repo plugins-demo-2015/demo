@@ -46,6 +46,8 @@ master# docker ps -a | grep redis
 master# docker ps -a | grep web
 ```
 
+Now load up http://172.16.70.250:4040/ to see Weave Scope.
+
 Then we start the HTTP load balancer that opens up the open to the outside world:
 
 ```bash
@@ -72,6 +74,3 @@ master# docker ps -a | grep web
 ```
 
 Observe that the database is both *still accessible* (thanks to Weave) and *still has its data* (thanks to Flocker).
-
-
-You can also load up http://172.16.70.250:4040/ to see Weave Scope.
