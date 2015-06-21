@@ -5,7 +5,7 @@
 export DEBIAN_FRONTEND=noninteractive
 set -ex
 
-weave_release='1.0.1'
+weave_release='0.11.2'
 
 # vars
 #BASE_DEB_FOLDER="http://build.clusterhq.com/results/omnibus/storage-driver-configuration-FLOC-1925/ubuntu-14.04"
