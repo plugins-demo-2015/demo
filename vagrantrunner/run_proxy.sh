@@ -2,12 +2,15 @@
 
 set -xe
 
-TARGET_HOSTNAME='hello.weave.local'
 DNS='10.23.11.10'
+
+weave expose
+ip route add $DNS dev weave
+
+TARGET_HOSTNAME='hello.weave.local'
 
 proxyid=$(docker run -d \
     --name demoproxy \
-    --dns $DNS \
     --net=host \
     -p 80:80 \
     clusterhq/experimental-volumes-gui \
