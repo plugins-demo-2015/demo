@@ -31,22 +31,22 @@ $ cd vagrantrunner
 $ vagrant ssh master
 ```
 
-Then we start the HTTP load balancer that opens up the open to the outside world:
-
-```bash
-master$ sudo su -
-master# cd /vagrant
-master# bash run_proxy.sh
-```
-
 Then we check that swarm is working and that the plugins are running, then bring up the app using `docker-compose`:
 
 ```bash
+master$ sudo su -
 master# export DOCKER_HOST=localhost:2378
 master# docker ps -a
 master# cd /vagrant/app
 master# docker-compose up -d
 master# docker ps -a | grep redis
+```
+
+Then we start the HTTP load balancer that opens up the open to the outside world:
+
+```bash
+master# cd /vagrant
+master# bash run_proxy.sh
 ```
 
 Now we can load the app in a browser:
@@ -60,6 +60,7 @@ Click around and add some Docker logos onto the screen.
 Now we migrate the stateful database to another node.
 
 ```
+master# cd /vagrant/app
 master# docker-compose stop
 master# docker-compose rm -f
 master# vim docker-compose.yml # switch "runner" and "master" in the redis constraint
