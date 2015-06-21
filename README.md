@@ -19,6 +19,7 @@ and start the swarm master:
 
 ```bash
 $ cd vagrantrunner
+$ bash run_flocker_gui.sh
 $ bash create_network.sh
 $ bash launch_scope.sh
 $ bash swarm_manage.sh
@@ -30,6 +31,8 @@ Then in another shell, we SSH into the master:
 $ cd vagrantrunner
 $ vagrant ssh master
 ```
+
+-- begin demo here --
 
 Then we check that swarm is working and that the plugins are running, then bring up the app using `docker-compose`:
 
@@ -70,11 +73,5 @@ master# docker ps -a | grep web
 
 Observe that the database is both *still accessible* (thanks to Weave) and *still has its data* (thanks to Flocker).
 
-In another window, run:
-
-```
-cd vagrantrunner
-./run_flocker_gui.sh
-```
 
 You can also load up http://172.16.70.250:4040/ to see Weave Scope.
