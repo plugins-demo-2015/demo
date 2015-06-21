@@ -5,7 +5,7 @@
 export DEBIAN_FRONTEND=noninteractive
 set -ex
 
-weave_release='0.11.2'
+weave_release='1.0.1'
 
 # vars
 #BASE_DEB_FOLDER="http://build.clusterhq.com/results/omnibus/storage-driver-configuration-FLOC-1925/ubuntu-14.04"
@@ -15,7 +15,7 @@ weave_release='0.11.2'
 BASE_DEB_FOLDER="http://build.clusterhq.com/results/omnibus/more-valid-state-invalidation-FLOC-2135/ubuntu-14.04"
 CGROUPSFS_FOLDER="http://ftp.uk.debian.org/debian/pool/main/c/cgroupfs-mount"
 CGROUPSFS_BINARY="cgroupfs-mount_1.2_all.deb"
-COMPILED_FILES="/vagrant/compiled/files"
+COMPILED_FILES="/tmp/binaries"
 PLUGIN_REPO="https://github.com/clusterhq/flocker-docker-plugin"
 PLUGIN_BRANCH="master"
 
@@ -44,8 +44,16 @@ cd ~ && wget $CGROUPSFS_FOLDER/$CGROUPSFS_BINARY && dpkg -i $CGROUPSFS_BINARY
 apt-get -y --force-yes install clusterhq-flocker-node clusterhq-flocker-cli
 
 # copy weave script
-curl -L -o /usr/bin/weave https://github.com/weaveworks/weave/releases/download/v$weave_release/weave
+curl -s -L -o /usr/bin/weave https://github.com/weaveworks/weave/releases/download/v$weave_release/weave
 chmod a+x /usr/bin/weave
+
+# copy scope script
+cp /tmp/binaries/scope /usr/bin/scope
+chmod a+x /usr/bin/scope
+
+# copy swarm binary
+cp /tmp/binaries/swarm /usr/bin/swarm
+chmod a+x /usr/bin/swarm
 
 # install the flocker plugin from git using pip
 pip install git+$PLUGIN_REPO@$PLUGIN_BRANCH
@@ -71,9 +79,10 @@ docker pull binocarlos/moby-counter:latest
 docker pull clusterhq/experimental-volumes-gui:latest
 docker pull gliderlabs/alpine:latest
 docker load -i $COMPILED_FILES/plugin.tar
+docker load -i $COMPILED_FILES/scope.tar
 
 # install compose
-git clone --depth 15 --single-branch --branch volume_driver https://github.com/lukemarsden/compose /root/compose
+git clone --depth 15 --single-branch --branch publish_service https://github.com/binocarlos/compose /root/compose
 (cd /root/compose; pip install -r requirements.txt; python setup.py install)
 
 # nuke docker engine id

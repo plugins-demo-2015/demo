@@ -1,14 +1,14 @@
 web:
   image: binocarlos/moby-counter
   hostname: hello.weave.local
-  net: demonet
+  publish_service: web.demonet.weave
   dns: 10.23.11.10
   environment:
      - "USE_REDIS_HOST=redis.weave.local"
 redis:
   image: redis
   hostname: redis.weave.local
-  net: demonet
+  publish_service: redis.demonet.weave
   dns: 10.23.11.10
   environment:
      - "constraint:node==master"
