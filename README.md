@@ -54,6 +54,7 @@ master# export DOCKER_HOST=localhost:2378
 master# docker ps -a
 master# cd /vagrant/app
 master# docker-compose up -d
+master# docker ps -a | grep redis
 ```
 
 Now we can load the app in a browser:
@@ -71,6 +72,7 @@ master# docker-compose stop
 master# docker-compose rm -f
 master# vim docker-compose.yml # switch "runner" and "master" in the redis constraint
 master# docker-compose up -d
+master# docker ps -a | grep redis
 ```
 
 Observe that the database is both *still accessible* (thanks to Weave) and *still has its data* (thanks to Flocker).
