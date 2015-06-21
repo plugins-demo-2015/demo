@@ -69,3 +69,12 @@ master# docker ps -a | grep redis
 ```
 
 Observe that the database is both *still accessible* (thanks to Weave) and *still has its data* (thanks to Flocker).
+
+In another window, run:
+
+```
+cd vagrantrunner
+./run_flocker_gui.sh
+```
+
+You can also load up http://172.16.70.250:4040/ to see Weave Scope.
