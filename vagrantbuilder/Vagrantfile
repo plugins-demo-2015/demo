@@ -14,5 +14,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.provision "file", source: "../shared/etc/init/docker.io.conf", destination: "/tmp/dockerupstart.conf"
     config.vm.provision "file", source: "../shared/etc/default/docker.io", destination: "/tmp/dockerdefaults"
     config.vm.provision "file", source: "../shared/install.sh", destination: "/tmp/install.sh"
-    config.vm.provision "shell", inline: "/tmp/install.sh && /vagrant/installzfs.sh"
+    config.vm.provision "file", source: "../shared/binaries", destination: "/tmp/binaries"
+    config.vm.provision "shell", inline: "/tmp/install.sh && /vagrant/installzfs.sh && bash /vagrant/purge.sh"
 end

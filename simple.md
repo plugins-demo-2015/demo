@@ -21,6 +21,7 @@ $ make -C vagrantrunner
 on both nodes:
 
 ```
+$ sudo docker network rm demonet
 $ sudo docker network create -d weave demonet
 ```
 

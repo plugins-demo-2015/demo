@@ -2,6 +2,7 @@
 # vi: set ft=ruby :
 
 VAGRANTFILE_API_VERSION = "2"
+WEAVE_VERSION = ENV['WEAVE_VERSION'] || "1.0.1"
 
 load 'runner_scripts.rb'
 
@@ -11,9 +12,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.cache.scope = :box
   end
 
-  config.vm.box = "docker-plugins-demo-vagrant-ubuntu-v12"
-  config.vm.box_url = "https://storage.googleapis.com/experiments-clusterhq/vagrant-boxes/flocker-ubuntu14.04-zfs-v12.box"
-  
+  config.vm.box = "docker-plugins-demo-vagrant-ubuntu-v16"
+  config.vm.box_url = "http://storage.googleapis.com/experiments-clusterhq/vagrant-boxes/flocker-ubuntu14.04-zfs-v16.box"
+
   config.vm.define "master" do |master|
     master.vm.network :private_network, :ip => "172.16.70.250"
     master.vm.hostname = "master"
@@ -22,7 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
     master.vm.provision :shell, inline: $prepare_flocker + $install_keys
-    
+
     master.vm.provision "file", source: "./bakedcerts/cluster.crt", destination: "/tmp/flocker_certs/cluster.crt"
 
     master.vm.provision "file", source: "./bakedcerts/09727403-45a3-4e50-99ac-4ab9f4a13a8a.crt", destination: "/tmp/flocker_certs/node.crt"
@@ -35,17 +36,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     master.vm.provision "file", source: "./bakedcerts/172.16.70.250-plugin.key", destination: "/tmp/flocker_certs/plugin.key"
 
     master.vm.provision "file", source: "./bakedcerts/agent.yml", destination: "/tmp/flocker_certs/agent.yml"
-    
+
     master.vm.provision :shell, inline: $copy_certs + $flocker_control + $flocker_node + $flocker_plugin_master
 
     master.vm.provision "file", source: "../shared/runweave.sh", destination: "/tmp/runweave.sh"
 
     master.vm.provision "shell", inline: <<SCRIPT
-bash /tmp/runweave.sh 10 172.16.70.251
-#sleep 5
-#docker network create -d weave demonet
-#/vagrant/bin/swarm manage --host 0.0.0.0:2378 172.16.70.250:2375,172.16.70.251:2375 &
-#bash /vagrant/run_proxy.sh
+WEAVE_VERSION=#{WEAVE_VERSION} bash /tmp/runweave.sh 10 172.16.70.251
 SCRIPT
 
   end
@@ -74,8 +71,7 @@ SCRIPT
     runner.vm.provision "file", source: "../shared/runweave.sh", destination: "/tmp/runweave.sh"
 
     runner.vm.provision "shell", inline: <<SCRIPT
-bash /tmp/runweave.sh 11 172.16.70.250
-#docker network create -d weave demonet
+WEAVE_VERSION=#{WEAVE_VERSION} bash /tmp/runweave.sh 11 172.16.70.250
 SCRIPT
 
   end
