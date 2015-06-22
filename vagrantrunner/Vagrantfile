@@ -12,12 +12,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.cache.scope = :box
   end
 
-  #config.vm.box = "docker-plugins-demo-vagrant-ubuntu-v12"
-  #config.vm.box_url = "http://storage.googleapis.com/experiments-clusterhq/vagrant-boxes/flocker-ubuntu14.04-zfs-v12.box"
+  config.vm.box = "docker-plugins-demo-vagrant-ubuntu-v16"
+  config.vm.box_url = "http://storage.googleapis.com/experiments-clusterhq/vagrant-boxes/flocker-ubuntu14.04-zfs-v16.box"
 
-  config.vm.box = "docker-plugins-demo-vagrant-ubuntu-v13-lcl"
-  config.vm.box_url = "file:///Users/kai/projects/docker-plugins-demo/vagrantbuilder/flocker-ubuntu14.04-zfs-v13.box"
-  
   config.vm.define "master" do |master|
     master.vm.network :private_network, :ip => "172.16.70.250"
     master.vm.hostname = "master"
@@ -43,9 +40,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     master.vm.provision :shell, inline: $copy_certs + $flocker_control + $flocker_node + $flocker_plugin_master
 
     master.vm.provision "file", source: "../shared/runweave.sh", destination: "/tmp/runweave.sh"
-
-    # once we have the plugin for 1.0.1 - we inject it here
-    master.vm.provision "file", source: "../shared/binaries/plugin.1.0.1.tar", destination: "/tmp/plugin.1.0.1.tar"
 
     master.vm.provision "shell", inline: <<SCRIPT
 WEAVE_VERSION=#{WEAVE_VERSION} bash /tmp/runweave.sh 10 172.16.70.251
@@ -75,9 +69,6 @@ SCRIPT
     runner.vm.provision :shell, inline: $copy_certs + $flocker_node + $flocker_plugin_runner
 
     runner.vm.provision "file", source: "../shared/runweave.sh", destination: "/tmp/runweave.sh"
-
-    # once we have the plugin for 1.0.1 - we inject it here
-    runner.vm.provision "file", source: "../shared/binaries/plugin.1.0.1.tar", destination: "/tmp/plugin.1.0.1.tar"
 
     runner.vm.provision "shell", inline: <<SCRIPT
 WEAVE_VERSION=#{WEAVE_VERSION} bash /tmp/runweave.sh 11 172.16.70.250
