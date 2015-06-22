@@ -1,4 +1,5 @@
 ## Unofficial Plugins Demo
+
 Using Flocker and Weave with the Docker platform
 
 ## Watch the video
@@ -21,7 +22,7 @@ $ make -C vagrantrunner
 
 This will use pre-packed boxes that has everything installed - start 2 VMs and then install the Flocker and Weave plugins.
 
-This box uses the Docker experimental binary and patched versions of [Swarm](https://github.com/binocarlos/swarm/tree/publish_service) and [Compose](https://github.com/binocarlos/compose/tree/publish_service):
+This box uses the [Docker experimental binary](https://github.com/docker/docker/tree/master/experimental) and patched versions of [Swarm](https://github.com/binocarlos/swarm/tree/publish_service) and [Compose](https://github.com/binocarlos/compose/tree/publish_service):
 
 Once the boxes have started - you should create the weave network on each of the nodes and start the swarm master:
 
