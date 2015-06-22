@@ -1,6 +1,11 @@
-## docker-plugins-demo
+## Unofficial Plugins Demo
+Using Flocker and Weave with the Docker platform
 
-A demo of the Flocker and Weave Docker plugins.
+## Watch the video
+
+See https://plugins-demo-2015.github.io/
+
+Then come back here to try it yourself with Vagrant!
 
 ## Vagrant Quickstart
 
