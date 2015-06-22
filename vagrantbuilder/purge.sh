@@ -6,8 +6,6 @@
 
 aptitude -y purge ri
 aptitude -y purge installation-report landscape-common wireless-tools wpasupplicant ubuntu-serverguide
-aptitude -y purge python-dbus libnl1 python-smartpm python-twisted-core libiw30
-aptitude -y purge python-twisted-bin libdbus-glib-1-2 python-pexpect python-pycurl python-serial python-gobject python-pam python-openssl libffi5
 apt-get purge -y linux-image-3.0.0-12-generic-pae
 
 # Remove APT cache
