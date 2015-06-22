@@ -14,13 +14,16 @@ You will also need Vagrant 1.7.2 and Virtualbox installed.
 Then:
 
 ```bash
+$ git clone git@github.com/plugins-demo-2015/demo
+$ cd demo
 $ make -C vagrantrunner
 ```
 
-This will use pre-packed boxes that has everything installed - start 3 VMs and then install the Flocker and Weave plugins.
+This will use pre-packed boxes that has everything installed - start 2 VMs and then install the Flocker and Weave plugins.
 
-Once the boxes have started - we create the weave network on each of the nodes
-and start the swarm master:
+This box uses the Docker experimental binary and patched versions of [Swarm](https://github.com/binocarlos/swarm/tree/publish_service) and [Compose](https://github.com/binocarlos/compose/tree/publish_service):
+
+Once the boxes have started - you should create the weave network on each of the nodes and start the swarm master:
 
 ```bash
 $ cd vagrantrunner
@@ -29,7 +32,7 @@ $ bash launch_scope.sh
 $ bash swarm_manage.sh
 ```
 
-Then in another shell, we SSH into the master:
+Then in another shell, SSH into the master:
 
 ```bash
 $ cd vagrantrunner
